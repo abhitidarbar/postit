@@ -1,4 +1,4 @@
-export type Colors = 'w' | 'b';
+export type Colors = "w" | "b";
 // export type GameoverType =
 //   | 'checkmate'
 //   | 'timeout'
@@ -36,39 +36,39 @@ export interface GameTime {
 }
 
 export enum GameType {
-  BLITZ = 'blitz',
-  RAPID = 'rapid'
+  BLITZ = "blitz",
+  RAPID = "rapid",
 }
 
 export enum Promotion {
   NO_PROMOTION = 0,
-  QUEEN = 'q',
-  BISHOP = 'b',
-  KNIGHT = 'n',
-  ROOK = 'r'
+  QUEEN = "q",
+  BISHOP = "b",
+  KNIGHT = "n",
+  ROOK = "r",
 }
 
 export enum Winner {
-  NONE = 'none',
-  WHITE = 'white',
-  BLACK = 'black',
-  DRAW = 'draw'
+  NONE = "none",
+  WHITE = "white",
+  BLACK = "black",
+  DRAW = "draw",
 }
 
 export enum GameState {
-  INVALID = 'invalid',
-  OPEN = 'open',
-  CHECKMATED = 'checkmated',
-  STALEMATE = 'stalemate',
-  DRAWN_75_MOVE = 'drawn_75_move',
-  DRAWN_5_FOLD = 'drawn_5_fold',
-  DRAWN_50_MOVE = 'drawn_50_move',
-  DRAWN_3_FOLD = 'drawn_3_fold',
-  DRAWN_INSUFFICIENT = 'drawn_insufficient',
-  TIMEOUT = 'timeout',
-  ABORTED = 'aborted',
-  RESIGNED = 'resigned',
-  DRAWN_BY_AGREEMENT = 'drawn_by_agreement'
+  INVALID = "invalid",
+  OPEN = "open",
+  CHECKMATED = "checkmated",
+  STALEMATE = "stalemate",
+  DRAWN_75_MOVE = "drawn_75_move",
+  DRAWN_5_FOLD = "drawn_5_fold",
+  DRAWN_50_MOVE = "drawn_50_move",
+  DRAWN_3_FOLD = "drawn_3_fold",
+  DRAWN_INSUFFICIENT = "drawn_insufficient",
+  TIMEOUT = "timeout",
+  ABORTED = "aborted",
+  RESIGNED = "resigned",
+  DRAWN_BY_AGREEMENT = "drawn_by_agreement",
 }
 
 export type GameDrawnType =
@@ -109,8 +109,8 @@ export interface TimeControl {
   black_time: number;
 }
 
-export const defaultMnemonicKey = 'private-key-mnemonic';
-export const defaultFaucetTokenKey = 'faucet-token';
+export const defaultMnemonicKey = "private-key-mnemonic";
+export const defaultFaucetTokenKey = "faucet-token";
 
 export interface PlayerRating {
   wins: number;
@@ -133,7 +133,7 @@ export interface Player {
 }
 
 export enum Category {
-  BLITZ = 'Blitz',
-  RAPID = 'Rapid',
-  GLOBAL = 'Global'
+  BLITZ = "Blitz",
+  RAPID = "Rapid",
+  GLOBAL = "Global",
 }

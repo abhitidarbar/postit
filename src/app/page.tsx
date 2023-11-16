@@ -1,6 +1,6 @@
 import Sidebar from "../components/sidebar";
 import Header from "../components/header";
-import Content from "../content";
+import Content from "../components/content";
 
 export default function Home() {
   return (
