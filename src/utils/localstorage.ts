@@ -4,7 +4,9 @@
  * @param data the data to be saved
  */
 const saveToLocalStorage = (key: string, data: string) => {
-  localStorage.setItem(key, data);
+  if (typeof window !== "undefined" && window.localStorage) {
+    localStorage.setItem(key, data);
+  }
 };
 
 /**
@@ -13,8 +15,9 @@ const saveToLocalStorage = (key: string, data: string) => {
  */
 const getFromLocalStorage = (key: string): string => {
   // Fetch it from local storage and parse
-
-  return localStorage.getItem(key) ?? "";
+  if (typeof window !== "undefined" && window.localStorage) {
+    return localStorage.getItem(key) ?? "";
+  }
 };
 
 export { saveToLocalStorage, getFromLocalStorage };
