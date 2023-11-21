@@ -72,16 +72,13 @@ class Actions {
 
     // Try to load the mnemonic from local storage
 
-    //let mnemonic: string | null = getFromLocalStorage(defaultMnemonicKey);
-    let mnemonic: string | null =
-      "source bonus chronic canvas draft south burst lottery vacant surface solve popular case indicate oppose farm nothing bullet exhibit title speed wink action roast";
+    let mnemonic: string | null = getFromLocalStorage(defaultMnemonicKey);
 
     if (!mnemonic || mnemonic === "") {
-      // Generate a fresh mnemonic
-      mnemonic = generateMnemonic();
-
+      mnemonic =
+        "source bonus chronic canvas draft south burst lottery vacant surface solve popular case indicate oppose farm nothing bullet exhibit title speed wink action roast";
       // Save the mnemonic to local storage
-      // saveToLocalStorage(defaultMnemonicKey, mnemonic);
+      saveToLocalStorage(defaultMnemonicKey, mnemonic);
     }
     try {
       // Initialize the wallet using the saved mnemonic
@@ -188,10 +185,16 @@ class Actions {
     }
   }
 
-  async createUser(username: string): Promise<any> {
-    const createNewUser = await this.callMethod("CreateUser", [username]);
+  async createUser(username: string, name: string): Promise<any> {
+    const createNewUser = await this.callMethod("CreateUser", [username, name]);
     console.log("actions createuser response ", JSON.stringify(createNewUser));
     return createNewUser;
+  }
+
+  async createPost(body: string): Promise<any> {
+    const createNewPost = await this.callMethod("CreatePost", [body]);
+    console.log("actions creatpost response ", JSON.stringify(createNewPost));
+    return createNewPost;
   }
 }
 
