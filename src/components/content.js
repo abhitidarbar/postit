@@ -11,6 +11,7 @@ dayjs.extend(relativeTime);
 export default function Content() {
   const [posts, setPosts] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [refresh, setRefresh] = useState(0);
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
 
   useEffect(() => {
@@ -20,15 +21,14 @@ export default function Content() {
         "ListPostsByOffset(" + offset + ",10)"
       );
       const response = getObjectFromStringResponse(res);
-      console.log(response);
       setPosts(response);
     };
     getPostsPaginated();
-  }, []);
+  }, [refresh]);
 
   return (
     <div>
-      <Header />
+      <Header setRefresh={setRefresh} refresh={refresh} />
       <hr className="w-full border-l border-gray-200 opacity-25 sticky mt-4"></hr>
       <div className="flex flex-col">
         {posts.map((p, index = 0) => {

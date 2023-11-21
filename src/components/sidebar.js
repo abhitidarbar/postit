@@ -1,5 +1,6 @@
 import Actions from "../utils/action";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
+
 export default function Sidebar() {
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
   const createUser = async () => {
@@ -37,9 +38,6 @@ export default function Sidebar() {
       <button
         type="button"
         className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-10 py-2.5 text-center mb-2 w-48"
-        onClick={() => {
-          createUser();
-        }}
       >
         Profile
       </button>
@@ -48,6 +46,16 @@ export default function Sidebar() {
         className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
       >
         Post
+      </button>
+
+      <button
+        type="button"
+        className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
+        onClick={() => {
+          createUser();
+        }}
+      >
+        Create User
       </button>
     </div>
   );
