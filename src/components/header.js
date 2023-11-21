@@ -1,16 +1,26 @@
 "use client";
+import Actions from "../utils/action";
 import { useState } from "react";
 export default function Header() {
   const [content, setContent] = useState("");
-
   const handleInput = (e) => {
     setContent(e.target.value);
+  };
+  const createPost = async () => {
+    const actions = await Actions.getInstance();
+    try {
+      actions.createPost(content).then((response) => {
+        console.log(response);
+      });
+    } catch (err) {
+      console.log("error in calling createPost", err);
+    }
   };
   return (
     <div className="flex flex-col">
       <span className="flex ml-4">
         <img
-          class="w-10 h-10 rounded-full"
+          className="w-10 h-10 rounded-full"
           src="./favicon.ico"
           alt="Rounded avatar"
         />
@@ -30,11 +40,13 @@ export default function Header() {
         <button
           type="button"
           className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-5 py-1.5 text-center mb-2"
+          onClick={() => {
+            createPost();
+          }}
         >
           Post
         </button>
       </div>
-      <hr className="w-full border-l border-gray-200 opacity-25 sticky"></hr>
     </div>
   );
 }
