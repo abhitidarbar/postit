@@ -1,3 +1,3 @@
 export default function Trending() {
-  return <div>Trending</div>;
+  return <div className="sticky top-5">Trending</div>;
 }
