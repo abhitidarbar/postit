@@ -35,18 +35,19 @@ export default function Sidebar() {
       >
         Home
       </button>
-      <button
-        type="button"
+      <a
         className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-10 py-2.5 text-center mb-2 w-48"
+        href="/profile"
+        rel="noreferrer"
       >
         Profile
-      </button>
-      <button
+      </a>
+      <a
         type="button"
         className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
       >
         Post
-      </button>
+      </a>
 
       <button
         type="button"
