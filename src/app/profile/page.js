@@ -27,7 +27,7 @@ export default function Profile() {
     const getPostsPaginated = async () => {
       const res = await provider.evaluateExpression(
         "gno.land/r/demo/postit",
-        "ListPostsByOffset(" + offset + ",10)"
+        `ListUserPostsByOffset("username",` + offset + `,10)`
       );
       const response = getObjectFromStringResponse(res);
       setPosts(response);
@@ -118,7 +118,7 @@ export default function Profile() {
                   />
                   <div className="ml-3">
                     <div className="flex">
-                      <div className="font-bold">{"Name"}</div>
+                      <div className="font-bold">{p.User.Name}</div>
                       <div className="ml-1 text-gray-400 ">@{p.Username} .</div>
                       <div className="ml-1 text-gray-400 ">
                         {dayjs(p.Timestamp).fromNow()}
