@@ -17,7 +17,7 @@ export default function Profile() {
     const getUser = async () => {
       const user = await provider.evaluateExpression(
         "gno.land/r/demo/postit",
-        `GetUserByAddress("g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf")`
+        `GetUserByAddress("g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5")`
       );
       console.log("user", user);
     };
