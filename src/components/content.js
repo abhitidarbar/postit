@@ -50,7 +50,7 @@ export default function Content() {
                     <div className="font-bold">{p.User.Name}</div>
                     <div className="ml-1 text-gray-400 ">@{p.Username} .</div>
                     <div className="ml-1 text-gray-400 ">
-                      {dayjs(p.Timestamp).fromNow()}
+                      {dayjs(p.CreatedAt).fromNow()}
                     </div>
                   </div>
                   <div>{p.Body}</div>
