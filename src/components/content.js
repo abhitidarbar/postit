@@ -22,6 +22,13 @@ export default function Content() {
       );
       const response = getObjectFromStringResponse(res);
       setPosts(response);
+
+      // TODO(hariom): move it to relevant place
+      const tres = await provider.evaluateExpression(
+        "gno.land/r/demo/postit",
+        "GetTrending()"
+      );
+      console.log(tres)
     };
     getPostsPaginated();
   }, [refresh]);
