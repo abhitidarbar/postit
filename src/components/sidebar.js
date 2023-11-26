@@ -7,7 +7,7 @@ export default function Sidebar() {
     const actions = await Actions.getInstance();
     try {
       actions
-        .createUser("username", "name")
+        .createUser("foobar", "Foo Barney")
         .then((response) => {
           console.log(response);
         })

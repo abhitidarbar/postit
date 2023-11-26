@@ -29,7 +29,7 @@ export default function Profile() {
     const getPostsPaginated = async () => {
       const res = await provider.evaluateExpression(
         "gno.land/r/demo/postit",
-        `ListUserPostsByOffset("username",` + offset + `,10)`
+        `ListUserPostsByOffset("foobar",` + offset + `,10)`
       );
       const response = getObjectFromStringResponse(res);
       setPosts(response);
@@ -69,7 +69,7 @@ export default function Profile() {
           </a>
           <div className="mt-1 ml-8">
             <div className="text-lg font-bold">{user.Name}</div>
-            <div className="font-bold">0 posts</div>
+            <div className="text-gray-400 text-sm font-bold">{user.PostCount + " posts"} </div>
             {/* TODO(hariom): show actual count */}
           </div>
         </div>
