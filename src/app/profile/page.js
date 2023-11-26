@@ -70,7 +70,6 @@ export default function Profile() {
           <div className="mt-1 ml-8">
             <div className="text-lg font-bold">{user.Name}</div>
             <div className="text-gray-400 text-sm font-bold">{user.PostCount + " posts"} </div>
-            {/* TODO(hariom): show actual count */}
           </div>
         </div>
         <img
