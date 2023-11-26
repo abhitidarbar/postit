@@ -49,7 +49,7 @@ export default function Content() {
               <div className="flex p-4">
                 <img
                   className="w-10 h-10 rounded-full"
-                  src="./favicon.ico"
+                  src="./default-user-avatar.png"
                   alt="Rounded avatar"
                 />
                 <div className="ml-3">

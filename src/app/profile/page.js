@@ -74,7 +74,7 @@ export default function Profile() {
         </div>
         <img
           className="w-24 h-24 rounded-full ml-4 mt-10"
-          src="./favicon.ico"
+          src="./default-user-avatar.png"
           alt="Rounded avatar"
         />
         <div className="text-lg mt-4 ml-4 font-bold">{user.Name}</div>
@@ -133,7 +133,7 @@ export default function Profile() {
                 <div className="flex p-4">
                   <img
                     className="w-10 h-10 rounded-full"
-                    src="./favicon.ico"
+                    src="./default-user-avatar.png"
                     alt="Rounded avatar"
                   />
                   <div className="ml-3">

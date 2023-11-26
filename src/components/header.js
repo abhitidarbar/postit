@@ -26,7 +26,7 @@ export default function Header(props) {
       <span className="flex ml-4">
         <img
           className="w-10 h-10 rounded-full"
-          src="./favicon.ico"
+          src="./default-user-avatar.png"
           alt="Rounded avatar"
         />
 
