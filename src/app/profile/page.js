@@ -80,7 +80,9 @@ export default function Profile() {
         />
         <div className="text-lg mt-4 ml-4 font-bold">{user.Name}</div>
         <div className="text-gray-500 ml-4">{"@" + user.Username}</div>
-        <div className=" ml-4 mt-4 text-sm">{user.Bio}</div>
+        <div className="ml-4 mt-3 mb-4 text-sm {user.Username === '' ? italic : ''}">
+          {user.Bio === "" ? "No bio set" : ""}
+        </div>
         <div className="ml-4 flex my-2">
           <svg
             fill="#6b7280"
