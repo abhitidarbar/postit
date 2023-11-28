@@ -33,7 +33,6 @@ export default function Sidebar() {
       );
       const response = getObjectFromStringResponse(res);
       setUser(response);
-      console.log(response);
     };
     getUser();
   }, []);
@@ -64,29 +63,31 @@ export default function Sidebar() {
       >
         Post
       </a>
-
-      <button
-        type="button"
-        className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
-        onClick={() => {
-          createUser();
-        }}
-      >
-        Create User
-      </button>
-      <div className="">
-        <button className="flex hover:bg-gray-600 rounded-full w-48 py-2">
-          <img
-            className="w-10 h-10 rounded-full mt-1 ml-3"
-            src="./default-user-avatar.png"
-            alt="Rounded avatar"
-          />
-          <div className="ml-3">
-            <div className="text-white font-bold">{user.Name}</div>
-            <div className="text-gray-500">{user.Username}</div>
-          </div>
+      {user.Address.length > 0 ? (
+        <div className="">
+          <button className="flex hover:bg-gray-600 rounded-full w-48 py-2">
+            <img
+              className="w-10 h-10 rounded-full mt-1 ml-3"
+              src="./default-user-avatar.png"
+              alt="Rounded avatar"
+            />
+            <div className="ml-3">
+              <div className="text-white font-bold">{user.Name}</div>
+              <div className="text-gray-500">{user.Username}</div>
+            </div>
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
+          onClick={() => {
+            createUser();
+          }}
+        >
+          Create User
         </button>
-      </div>
+      )}
     </div>
   );
 }
