@@ -8,10 +8,9 @@ import dayjs from "dayjs";
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 
-export default function Content() {
+export default function Content(props) {
   const [posts, setPosts] = useState([]);
   const [offset, setOffset] = useState(0);
-  const [refresh, setRefresh] = useState(0);
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
 
   useEffect(() => {
@@ -24,11 +23,11 @@ export default function Content() {
       setPosts(response);
     };
     getPostsPaginated();
-  }, [refresh]);
+  }, [props.refresh]);
 
   return (
     <div>
-      <Header setRefresh={setRefresh} refresh={refresh} />
+      <Header setRefresh={props.setRefresh} refresh={props.refresh} />
       <hr className="w-full border-l border-gray-200 opacity-25 sticky mt-4"></hr>
       <div className="flex flex-col">
         {posts.map((p, index = 0) => {

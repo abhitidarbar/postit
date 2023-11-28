@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../utils/regex";
-export default function Trending() {
+export default function Trending(props) {
   const [trending, setTrending] = useState([]);
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function Trending() {
       setTrending(trends);
     }
     getTrending();
-  }, []);
+  }, [props.refresh]);
 
   return (
     <div>
