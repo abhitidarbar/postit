@@ -39,6 +39,7 @@ export default function Profile() {
 
   return (
     <div className="flex w-screen bg-black">
+      <div className="w-1/6 p-4"></div>
       <div className="w-1/4 p-4">
         <Sidebar />
       </div>
@@ -220,6 +221,7 @@ export default function Profile() {
       <div className="w-1/4 p-4">
         <Trending />
       </div>
+      <div className="w-1/6 p-4"></div>
     </div>
   );
 }
