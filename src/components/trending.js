@@ -17,8 +17,8 @@ export default function Trending(props) {
   }, [props.refresh]);
 
   return (
-    <div>
-      <div className="sticky top-5 font-bold text-xl">Trending</div>
+    <div className="sticky top-5">
+      <div className="font-bold text-xl">Trending</div>
       {trending.map((t, i) => {
         return (
           <div className="mt-4" key={i}>
