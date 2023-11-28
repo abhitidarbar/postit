@@ -29,12 +29,13 @@ export default function Sidebar() {
         <div className="font-bold">.</div>
         <div className="text-sky-500 font-bold">it</div>
       </span>
-      <button
-        type="button"
+      <a
         className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-10 py-2.5 text-center mb-2 w-48"
+        href="/"
+        rel="noreferrer"
       >
         Home
-      </button>
+      </a>
       <a
         className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-10 py-2.5 text-center mb-2 w-48"
         href="/profile"
