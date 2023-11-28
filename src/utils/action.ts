@@ -19,7 +19,7 @@ import { getFromLocalStorage } from "./localstorage";
 import { useEffect } from "react";
 
 const defaultGasWanted: Long = new Long(300_000_0);
-const flippandoRealm: string = Config.GNO_FLIPPANDO_REALM;
+const postItRealm: string = Config.GNO_POSTIT_REALM;
 const customTXFee = "2000000ugnot";
 const rpcURL: string = Config.GNO_JSONRPC_URL;
 
@@ -135,13 +135,13 @@ class Actions {
         const gkArgs = args?.map((arg) => "-args " + arg).join(" ") ?? "";
         console.log(
           `$ gnokey maketx call -broadcast ` +
-            `-pkgpath ${flippandoRealm} -gas-wanted ${gasWanted} -gas-fee ${defaultTxFee} ` +
+            `-pkgpath ${postItRealm} -gas-wanted ${gasWanted} -gas-fee ${defaultTxFee} ` +
             `-func ${method} ${gkArgs} test`
         );
       }
 
       const resp = (await this.wallet?.callMethod(
-        flippandoRealm,
+        postItRealm,
         method,
         args,
         TransactionEndpoint.BROADCAST_TX_COMMIT,
