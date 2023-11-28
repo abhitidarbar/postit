@@ -7,6 +7,7 @@ export default function Home() {
   const [refresh, setRefresh] = useState(0);
   return (
     <div className="flex w-screen bg-black">
+      <div className="w-1/6 p-4"></div>
       <div className="w-1/4 p-4">
         <Sidebar />
       </div>
@@ -18,6 +19,7 @@ export default function Home() {
       <div className="w-1/4 p-4">
         <Trending refresh={refresh} />
       </div>
+      <div className="w-1/6 p-4"></div>
     </div>
   );
 }
