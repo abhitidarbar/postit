@@ -63,7 +63,7 @@ export default function Sidebar() {
       >
         Post
       </a>
-      {user.Address.length > 0 ? (
+      {user?.Address?.length > 0 ? (
         <div className="">
           <button className="flex hover:bg-gray-600 rounded-full w-48 py-2">
             <img
