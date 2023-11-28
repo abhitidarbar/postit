@@ -47,7 +47,7 @@ export default function Content() {
                 />
                 <div className="ml-3">
                   <div className="flex">
-                    <div className="font-bold">{p.User.Name}</div>
+                    <a className="font-bold">{p.User.Name}</a>
                     <div className="ml-1 text-gray-400 ">@{p.Username} .</div>
                     <div className="ml-1 text-gray-400 ">
                       {dayjs(p.CreatedAt).fromNow()}

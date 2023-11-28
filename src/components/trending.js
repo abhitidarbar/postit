@@ -12,7 +12,6 @@ export default function Trending() {
       );
       let trends = getObjectFromStringResponse(tres);
       setTrending(trends);
-      console.log(trends);
     }
     getTrending();
   }, []);
@@ -22,7 +21,7 @@ export default function Trending() {
       <div className="sticky top-5 font-bold text-xl">Trending</div>
       {trending.map((t, i) => {
         return (
-          <div className="mt-4">
+          <div className="mt-4" key={i}>
             <div className="text-gray-500 text-sm">{i + 1 + " . Trending"}</div>
             <div className="font-bold">{"#" + t.tag}</div>
             <div className="text-gray-500 text-sm">

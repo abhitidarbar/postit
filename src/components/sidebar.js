@@ -1,7 +1,10 @@
+import { useState, useEffect } from "react";
 import Actions from "../utils/action";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
-
+import { getObjectFromStringResponse } from "../utils/regex";
+import config from "../utils/config";
 export default function Sidebar() {
+  const [user, setUser] = useState({});
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
   const createUser = async () => {
     const actions = await Actions.getInstance();
@@ -22,6 +25,18 @@ export default function Sidebar() {
       console.log("error in calling createUser", err);
     }
   };
+  useEffect(() => {
+    const getUser = async () => {
+      const res = await provider.evaluateExpression(
+        "gno.land/r/demo/postit",
+        `GetUserByAddress("g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5")`
+      );
+      const response = getObjectFromStringResponse(res);
+      setUser(response);
+      console.log(response);
+    };
+    getUser();
+  }, []);
   return (
     <div className="flex flex-col sticky top-5 items-center">
       <span className="flex flex-row justify-center mb-4 w-48">
@@ -59,6 +74,19 @@ export default function Sidebar() {
       >
         Create User
       </button>
+      <div className="">
+        <button className="flex hover:bg-gray-600 rounded-full w-48 py-2">
+          <img
+            className="w-10 h-10 rounded-full mt-1 ml-3"
+            src="./default-user-avatar.png"
+            alt="Rounded avatar"
+          />
+          <div className="ml-3">
+            <div className="text-white font-bold">{user.Name}</div>
+            <div className="text-gray-500">{user.Username}</div>
+          </div>
+        </button>
+      </div>
     </div>
   );
 }
