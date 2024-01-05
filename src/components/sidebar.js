@@ -64,7 +64,7 @@ export default function Sidebar() {
         Post
       </a>
       {user?.Address?.length > 0 ? (
-        <div className="">
+        <a className="" rel="noreferrer" href="/profile">
           <button className="flex hover:bg-gray-600 rounded-full w-48 py-2">
             <img
               className="w-10 h-10 rounded-full mt-1 ml-3"
@@ -76,7 +76,7 @@ export default function Sidebar() {
               <div className="text-gray-500">{user.Username}</div>
             </div>
           </button>
-        </div>
+        </a>
       ) : (
         <button
           type="button"
