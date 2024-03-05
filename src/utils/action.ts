@@ -12,7 +12,7 @@ import {
 } from "@gnolang/tm2-js-client";
 import Config from "./config";
 import { ErrorTransform } from "./errors";
-import { defaultMnemonicKey } from "../types/types";
+import { defaultWalletKey } from "../types/types";
 import { generateMnemonic } from "./crypto";
 import { saveToLocalStorage } from "./localstorage";
 import { getFromLocalStorage } from "./localstorage";
@@ -63,26 +63,16 @@ class Actions {
     }
   }
 
-  public static hello(): string {
-    return "hello";
-  }
-
   private async initialize() {
     // Wallet initialization //
 
     // Try to load the mnemonic from local storage
 
-    let mnemonic: string | null = getFromLocalStorage(defaultMnemonicKey);
+    let walletInfo: string | null = getFromLocalStorage(defaultWalletKey);
 
-    if (!mnemonic || mnemonic === "") {
-      mnemonic =
-        "source bonus chronic canvas draft south burst lottery vacant surface solve popular case indicate oppose farm nothing bullet exhibit title speed wink action roast";
-      // Save the mnemonic to local storage
-      saveToLocalStorage(defaultMnemonicKey, mnemonic);
-    }
     try {
-      // Initialize the wallet using the saved mnemonic
-      this.wallet = await GnoWallet.fromMnemonic(mnemonic);
+      let jsonWalletInfo = JSON.parse(walletInfo);
+      this.wallet = await GnoWallet.fromMnemonic(jsonWalletInfo.mnemonic);
       console.log(this.wallet);
       // Initialize the provider
       //this.provider = new GnoWSProvider(wsURL);
@@ -92,7 +82,7 @@ class Actions {
       this.wallet.connect(this.providerJSON);
     } catch (e) {
       //Should not happen
-      console.error("Could not create wallet from mnemonic");
+      console.error("Could not create wallet");
     }
 
     /*
@@ -182,6 +172,31 @@ class Actions {
   public destroy() {
     if (!this.provider) {
       return;
+    }
+  }
+
+  async createWallet(mnemonic: string): Promise<any> {
+    try {
+      await GnoWallet.fromMnemonic(mnemonic).then(async (res) => {
+        let address = await res.getAddress();
+        saveToLocalStorage(
+          defaultWalletKey,
+          JSON.stringify({ mnemonic: mnemonic, address: address })
+        );
+      });
+    } catch {
+      console.error("Could not create wallet from mnemonic");
+    }
+  }
+
+  async getAddress(): Promise<any> {
+    try {
+      let wallet: string | null = getFromLocalStorage(defaultWalletKey);
+      let jsonWallet = JSON.parse(wallet);
+      let address = jsonWallet.address;
+      return address;
+    } catch {
+      console.error("Error in getting address");
     }
   }
 

@@ -3,24 +3,36 @@ import Sidebar from "../components/sidebar";
 import Content from "../components/content";
 import Trending from "../components/trending";
 import { getFromLocalStorage } from "../utils/localstorage";
-import { defaultMnemonicKey } from "../types/types";
+import { defaultWalletKey } from "../types/types";
 import { useState } from "react";
 import Login from "../components/login";
 export default function Home() {
   const [refresh, setRefresh] = useState(0);
-  const [mnemonic, setMnemonic] = useState("");
+  const [wallet, setWallet] = useState("");
+  const [load, setLoad] = useState(true);
+
+  async function checkMnemonic() {
+    const m = await getFromLocalStorage(defaultWalletKey);
+    setWallet(m);
+    setLoad(false);
+  }
+
   useState(() => {
-    async function checkMnemonic() {
-      const m = await getFromLocalStorage(defaultMnemonicKey);
-      setMnemonic(m);
-    }
     checkMnemonic();
   });
 
-  return (
+  return load ? (
+    <div className="flex flex-col items-center">
+      <span className="flex flex-row justify-center w-48">
+        <div className="font-bold">POST</div>
+        <div className="font-bold">.</div>
+        <div className="text-sky-500 font-bold">it</div>
+      </span>
+    </div>
+  ) : (
     <div>
-      {mnemonic === "" ? (
-        <Login setMnemonic={setMnemonic} />
+      {wallet === "" ? (
+        <Login />
       ) : (
         <div className="flex w-screen bg-black">
           <div className="w-1/6 p-4"></div>

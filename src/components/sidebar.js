@@ -2,36 +2,25 @@ import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../utils/regex";
 import Actions from "../utils/action";
-import config from "../utils/config";
+import Link from "next/link";
 export default function Sidebar() {
   const [user, setUser] = useState({});
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
-  const createUser = async () => {
+
+  const getUser = async () => {
     const actions = await Actions.getInstance();
     try {
-      actions
-        .createUser("foobar", "Foo Barney")
-        .then((response) => {
-          console.log(response);
-        })
-        .finally(async () => {
-          const userCount = await provider.evaluateExpression(
-            "gno.land/r/demo/postit",
-            "GetUserCount()"
-          );
-          console.log("usercount", userCount);
-        });
-    } catch (err) {
-      console.log("error in calling createUser", err);
+      actions.getAddress().then(async (address) => {
+        const res = await provider.evaluateExpression(
+          "gno.land/r/demo/postit",
+          `GetUserByAddress("${address.toString()}")`
+        );
+        const response = getObjectFromStringResponse(res);
+        setUser(response);
+      });
+    } catch (e) {
+      console.error(e);
     }
-  };
-  const getUser = async () => {
-    const res = await provider.evaluateExpression(
-      "gno.land/r/demo/postit",
-      `GetUserByAddress("g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5")`
-    );
-    const response = getObjectFromStringResponse(res);
-    setUser(response);
   };
   useEffect(() => {
     getUser();
@@ -81,15 +70,14 @@ export default function Sidebar() {
           </a>
         </div>
       ) : (
-        <a
-          type="button"
-          className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
-          onClick={() => {
-            createUser();
-          }}
-        >
-          Create User
-        </a>
+        <>
+          <Link
+            href={"/createUser"}
+            className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
+          >
+            Create User
+          </Link>
+        </>
       )}
     </div>
   );

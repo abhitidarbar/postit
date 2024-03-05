@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../../utils/regex";
 import dayjs from "dayjs";
+import Actions from "../../utils/action";
 
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
@@ -14,28 +15,35 @@ export default function Profile() {
   const [offset, setOffset] = useState(0);
   const [refresh, setRefresh] = useState(0);
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
-  useEffect(() => {
-    const getUser = async () => {
+
+  const getUser = async () => {
+    const actions = await Actions.getInstance();
+    actions.getAddress().then(async (address) => {
       const res = await provider.evaluateExpression(
         "gno.land/r/demo/postit",
-        `GetUserByAddress("g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5")`
+        `GetUserByAddress("${address.toString()}")`
       );
       const response = getObjectFromStringResponse(res);
       setUser(response);
-    };
+    });
+  };
+
+  const getPostsPaginated = async () => {
+    const res = await provider.evaluateExpression(
+      "gno.land/r/demo/postit",
+      `ListUserPostsByOffset("${user.Username}",` + offset + `,10)`
+    );
+    const response = getObjectFromStringResponse(res);
+    setPosts(response);
+  };
+
+  useEffect(() => {
     getUser();
   }, []);
+
   useEffect(() => {
-    const getPostsPaginated = async () => {
-      const res = await provider.evaluateExpression(
-        "gno.land/r/demo/postit",
-        `ListUserPostsByOffset("foobar",` + offset + `,10)`
-      );
-      const response = getObjectFromStringResponse(res);
-      setPosts(response);
-    };
     getPostsPaginated();
-  }, [refresh]);
+  }, [refresh, user]);
 
   return (
     <div className="flex w-screen bg-black">

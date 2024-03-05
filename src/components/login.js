@@ -1,14 +1,19 @@
 "use client";
 import { useState } from "react";
-import dayjs from "dayjs";
-import { defaultMnemonicKey } from "../types/types";
-import { saveToLocalStorage } from "../utils/localstorage";
-
-var relativeTime = require("dayjs/plugin/relativeTime");
-dayjs.extend(relativeTime);
-
-export default function Login(props) {
+import Actions from "../utils/action";
+export default function Login() {
   const [mnemonic, setMnemonic] = useState();
+
+  const createWallet = async () => {
+    const actions = await Actions.getInstance();
+    try {
+      actions.createWallet(mnemonic).then(() => {
+        window.location.reload();
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -33,12 +38,11 @@ export default function Login(props) {
             : "bg-sky-500 hover:bg-sky-600")
         }
         onClick={() => {
-          saveToLocalStorage(defaultMnemonicKey, mnemonic);
-          props.setMnemonic(mnemonic);
+          createWallet();
         }}
         disabled={mnemonic?.split(" ").length !== 24}
       >
-        Create User
+        Recover Wallet
       </button>
     </div>
   );
