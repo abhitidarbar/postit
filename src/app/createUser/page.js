@@ -19,8 +19,9 @@ export default function Login(props) {
     try {
       createUser(address, username, name)
         .then((response) => {
-          console.log(response);
-          setUserCreated(true);
+          if (response.code === 0) {
+            setUserCreated(true);
+          }
         })
         .finally(async () => {
           const userCount = await provider.evaluateExpression(
@@ -45,7 +46,6 @@ export default function Login(props) {
         className={
           "mt-5 text-white font-bold rounded-full text-md px-6 py-2 text-center mb-2 w-48 uppercase bg-sky-500 hover:bg-sky-600"
         }
-        onClick={() => {}}
       >
         GO TO HOME
       </Link>

@@ -53,10 +53,33 @@ export default function Content(props) {
                     </div>
                   </div>
                   <div>{p.Body}</div>
-                  <img
-                    className="rounded-2xl max-w-60 max-h-60 mt-1"
-                    src={p.image}
-                  ></img>
+                  <dialog id={p.Id} className="modal">
+                    <div className="modal-box p-0">
+                      <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                          ✕
+                        </button>
+                      </form>
+                      <img
+                        className="rounded-2xl w-full h-full"
+                        src={p.Attachment}
+                      ></img>
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                      <button>close</button>
+                    </form>
+                  </dialog>
+                  {p.Attachment.startsWith("data:image/") && (
+                    <button
+                      className=""
+                      onClick={() => document.getElementById(p.Id).showModal()}
+                    >
+                      <img
+                        className="rounded-2xl max-w-60 max-h-60 mt-1"
+                        src={p.Attachment}
+                      ></img>
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="flex">

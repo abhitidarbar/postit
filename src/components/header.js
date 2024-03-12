@@ -3,6 +3,7 @@ import Actions from "../utils/action";
 import { useEffect, useState } from "react";
 import { getFromLocalStorage } from "../utils/localstorage";
 import { defaultAddressKey } from "../types/types";
+import createPost from "../txs/post";
 export default function Header(props) {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,8 +14,10 @@ export default function Header(props) {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 1024 * 1024) {
-      setErrorMessage("File size exceeds 1MB. Please choose a smaller file.");
+    if (file.size > 512 * 512) {
+      setErrorMessage(
+        "Image size exceeds 512 x 512. Please choose a smaller file."
+      );
       return;
     }
     const reader = new FileReader();
@@ -28,10 +31,11 @@ export default function Header(props) {
   const handleInput = (e) => {
     setContent(e.target.value);
   };
-  const createPost = async () => {
+  const createPostTx = async () => {
     setLoading(true);
     const address = getFromLocalStorage(defaultAddressKey);
     try {
+      console.log(address, content, attachment);
       createPost(address, content, attachment).then((response) => {
         console.log(response);
         setContent("");
@@ -93,7 +97,7 @@ export default function Header(props) {
             "flex text-white bg-sky-500 hover:bg-sky-600 disabled:bg-gray-500 font-bold rounded-full text-md py-1.5 text-center mb-2 px-8"
           }
           onClick={() => {
-            createPost();
+            createPostTx();
           }}
           disabled={loading}
         >
