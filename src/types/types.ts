@@ -1,1 +1,1 @@
-export const defaultWalletKey = "private-key-wallet";
+export const defaultAddressKey = "default-address";

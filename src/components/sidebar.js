@@ -1,29 +1,57 @@
 import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../utils/regex";
-import Actions from "../utils/action";
+import { defaultAddressKey } from "../types/types";
+import { saveToLocalStorage } from "../utils/localstorage";
 import Link from "next/link";
+import { getFromLocalStorage } from "../utils/localstorage";
 export default function Sidebar() {
   const [user, setUser] = useState({});
+  const [adenaStatus, setAdenaStatus] = useState("failure");
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
 
+  const connectWallet = async () => {
+    //look for the adena object
+    if (!window.adena) {
+      //open adena.app in a new tab if the adena object is not found
+      window.open("https://adena.app/", "_blank");
+    } else {
+      //write your logic here
+      //the sample code below displays a method provided by Adena that initiates a connection
+      await adena.AddEstablish("Adena");
+    }
+  };
+
+  const setAccount = async () => {
+    if (window.adena) {
+      let res = await window.adena.GetAccount();
+      if (res) {
+        saveToLocalStorage(defaultAddressKey, res.address);
+        setAdenaStatus(res.status);
+      }
+    }
+  };
+
+  // make sure to call this only after setAccount
   const getUser = async () => {
-    const actions = await Actions.getInstance();
+    const address = getFromLocalStorage(defaultAddressKey);
     try {
-      actions.getAddress().then(async (address) => {
+      async (address) => {
         const res = await provider.evaluateExpression(
           "gno.land/r/demo/postit",
           `GetUserByAddress("${address.toString()}")`
         );
         const response = getObjectFromStringResponse(res);
         setUser(response);
-      });
+      };
     } catch (e) {
       console.error(e);
     }
   };
   useEffect(() => {
-    getUser();
+    setAccount().then(() => {
+      getUser();
+    });
   }, []);
   return (
     <div className="flex flex-col sticky top-5 items-center">
@@ -32,6 +60,7 @@ export default function Sidebar() {
         <div className="font-bold">.</div>
         <div className="text-sky-500 font-bold">it</div>
       </span>
+
       {user?.Address?.length > 0 ? (
         <div className="flex flex-col">
           <a
@@ -48,12 +77,6 @@ export default function Sidebar() {
           >
             Profile
           </a>
-          <a
-            type="button"
-            className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
-          >
-            Post
-          </a>
 
           <a className="" rel="noreferrer" href="/profile">
             <button className="flex hover:bg-gray-600 rounded-full w-48 py-2">
@@ -69,7 +92,7 @@ export default function Sidebar() {
             </button>
           </a>
         </div>
-      ) : (
+      ) : adenaStatus === "success" ? (
         <>
           <Link
             href={"/createUser"}
@@ -78,6 +101,17 @@ export default function Sidebar() {
             Create User
           </Link>
         </>
+      ) : (
+        <button
+          className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
+          onClick={() => {
+            connectWallet().then(() => {
+              setAccount();
+            });
+          }}
+        >
+          Connect Wallet
+        </button>
       )}
     </div>
   );

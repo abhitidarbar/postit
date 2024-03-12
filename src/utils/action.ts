@@ -12,7 +12,7 @@ import {
 } from "@gnolang/tm2-js-client";
 import Config from "./config";
 import { ErrorTransform } from "./errors";
-import { defaultWalletKey } from "../types/types";
+import { defaultAddressKey } from "../types/types";
 import { generateMnemonic } from "./crypto";
 import { saveToLocalStorage } from "./localstorage";
 import { getFromLocalStorage } from "./localstorage";
@@ -68,7 +68,7 @@ class Actions {
 
     // Try to load the mnemonic from local storage
 
-    let walletInfo: string | null = getFromLocalStorage(defaultWalletKey);
+    let walletInfo: string | null = getFromLocalStorage(defaultAddressKey);
 
     try {
       let jsonWalletInfo = JSON.parse(walletInfo);
@@ -175,23 +175,9 @@ class Actions {
     }
   }
 
-  async createWallet(mnemonic: string): Promise<any> {
-    try {
-      await GnoWallet.fromMnemonic(mnemonic).then(async (res) => {
-        let address = await res.getAddress();
-        saveToLocalStorage(
-          defaultWalletKey,
-          JSON.stringify({ mnemonic: mnemonic, address: address })
-        );
-      });
-    } catch {
-      console.error("Could not create wallet from mnemonic");
-    }
-  }
-
   async getAddress(): Promise<any> {
     try {
-      let wallet: string | null = getFromLocalStorage(defaultWalletKey);
+      let wallet: string | null = getFromLocalStorage(defaultAddressKey);
       let jsonWallet = JSON.parse(wallet);
       let address = jsonWallet.address;
       return address;
@@ -206,8 +192,8 @@ class Actions {
     return createNewUser;
   }
 
-  async createPost(body: string): Promise<any> {
-    const createNewPost = await this.callMethod("CreatePost", [body]);
+  async createPost(body: string, image: string): Promise<any> {
+    const createNewPost = await this.callMethod("CreatePost", [body, image]);
     console.log("actions creatpost response ", JSON.stringify(createNewPost));
     return createNewPost;
   }

@@ -3,7 +3,7 @@ import Sidebar from "../components/sidebar";
 import Content from "../components/content";
 import Trending from "../components/trending";
 import { getFromLocalStorage } from "../utils/localstorage";
-import { defaultWalletKey } from "../types/types";
+import { defaultAddressKey } from "../types/types";
 import { useState } from "react";
 import Login from "../components/login";
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
   const [load, setLoad] = useState(true);
 
   async function checkMnemonic() {
-    const m = await getFromLocalStorage(defaultWalletKey);
+    const m = await getFromLocalStorage(defaultAddressKey);
     setWallet(m);
     setLoad(false);
   }
@@ -31,25 +31,25 @@ export default function Home() {
     </div>
   ) : (
     <div>
-      {wallet === "" ? (
+      {/* {wallet === "" ? (
         <Login />
-      ) : (
-        <div className="flex w-screen bg-black">
-          <div className="w-1/6 p-4"></div>
-          <div className="w-1/4 p-4">
-            <Sidebar />
-          </div>
-          <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0"></hr>
-          <div className="w-1/2 py-4">
-            <Content refresh={refresh} setRefresh={setRefresh} />
-          </div>
-          <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0"></hr>
-          <div className="w-1/4 p-4">
-            <Trending refresh={refresh} />
-          </div>
-          <div className="w-1/6 p-4"></div>
+      ) : ( */}
+      <div className="flex w-screen bg-black">
+        <div className="w-1/6 p-4"></div>
+        <div className="w-1/4 p-4">
+          <Sidebar />
         </div>
-      )}
+        <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0"></hr>
+        <div className="w-1/2 py-4">
+          <Content refresh={refresh} setRefresh={setRefresh} />
+        </div>
+        <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0"></hr>
+        <div className="w-1/4 p-4">
+          <Trending refresh={refresh} />
+        </div>
+        <div className="w-1/6 p-4"></div>
+      </div>
+      {/* )} */}
     </div>
   );
 }
