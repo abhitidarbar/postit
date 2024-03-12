@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
-import Actions from "../../utils/action";
 import Link from "next/link";
 import createUser from "../../txs/user";
 import { getFromLocalStorage } from "../../utils/localstorage";
