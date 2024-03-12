@@ -3,6 +3,9 @@ import { useState } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import Actions from "../../utils/action";
 import Link from "next/link";
+import createUser from "../../txs/user";
+import { getFromLocalStorage } from "../../utils/localstorage";
+import { defaultAddressKey } from "../../types/types";
 
 export default function Login(props) {
   const [name, setName] = useState("");
@@ -10,11 +13,11 @@ export default function Login(props) {
   const [userCreated, setUserCreated] = useState(false);
 
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
-  const createUser = async () => {
-    const actions = await Actions.getInstance();
+  const createUserTx = async () => {
+    const address = getFromLocalStorage(defaultAddressKey);
+    console.log(address);
     try {
-      actions
-        .createUser(username, name)
+      createUser(address, username, name)
         .then((response) => {
           console.log(response);
           setUserCreated(true);
@@ -82,7 +85,7 @@ export default function Login(props) {
             : "bg-sky-500 hover:bg-sky-600")
         }
         onClick={() => {
-          createUser();
+          createUserTx();
         }}
         disabled={name.length === 0 || username.length === 0}
       >

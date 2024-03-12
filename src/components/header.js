@@ -1,10 +1,12 @@
 "use client";
 import Actions from "../utils/action";
 import { useEffect, useState } from "react";
+import { getFromLocalStorage } from "../utils/localstorage";
+import { defaultAddressKey } from "../types/types";
 export default function Header(props) {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState("#");
+  const [attachment, setAttachment] = useState("#");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleFileChange = (e) => {
@@ -17,7 +19,7 @@ export default function Header(props) {
     }
     const reader = new FileReader();
     reader.onloadend = () => {
-      setImage(reader.result);
+      setAttachment(reader.result);
       setErrorMessage("");
     };
     reader.readAsDataURL(file);
@@ -28,12 +30,12 @@ export default function Header(props) {
   };
   const createPost = async () => {
     setLoading(true);
-    const actions = await Actions.getInstance();
+    const address = getFromLocalStorage(defaultAddressKey);
     try {
-      actions.createPost(content, image).then((response) => {
+      createPost(address, content, attachment).then((response) => {
         console.log(response);
         setContent("");
-        setImage("#");
+        setAttachment("#");
         setLoading(false);
         props.setRefresh(props.refresh + 1);
       });
@@ -60,10 +62,10 @@ export default function Header(props) {
           }}
         ></textarea>
       </span>
-      {image != "#" && (
+      {attachment != "#" && (
         <img
           className="max-w-60 max-h-60 w-fit h-fit rounded-2xl mt-4"
-          src={image}
+          src={attachment}
         ></img>
       )}
       {errorMessage && (
@@ -75,6 +77,7 @@ export default function Header(props) {
             <input
               className="text-xs"
               type="file"
+              accept="image/x-png,image/gif,image/jpeg"
               onChange={(e) => {
                 handleFileChange(e);
               }}

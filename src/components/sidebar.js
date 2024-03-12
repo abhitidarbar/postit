@@ -26,7 +26,7 @@ export default function Sidebar() {
     if (window.adena) {
       let res = await window.adena.GetAccount();
       if (res) {
-        saveToLocalStorage(defaultAddressKey, res.address);
+        saveToLocalStorage(defaultAddressKey, res.data?.address);
         setAdenaStatus(res.status);
       }
     }
@@ -34,16 +34,15 @@ export default function Sidebar() {
 
   // make sure to call this only after setAccount
   const getUser = async () => {
+    console.log("get user");
     const address = getFromLocalStorage(defaultAddressKey);
     try {
-      async (address) => {
-        const res = await provider.evaluateExpression(
-          "gno.land/r/demo/postit",
-          `GetUserByAddress("${address.toString()}")`
-        );
-        const response = getObjectFromStringResponse(res);
-        setUser(response);
-      };
+      const res = await provider.evaluateExpression(
+        "gno.land/r/demo/postit",
+        `GetUserByAddress("${address.toString()}")`
+      );
+      const response = getObjectFromStringResponse(res);
+      setUser(response);
     } catch (e) {
       console.error(e);
     }

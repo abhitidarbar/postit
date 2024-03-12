@@ -10,7 +10,7 @@ import {
   TransactionEndpoint,
   TM2Error,
 } from "@gnolang/tm2-js-client";
-import Config from "./config";
+import Config from "../config/config";
 import { ErrorTransform } from "./errors";
 import { defaultAddressKey } from "../types/types";
 import { generateMnemonic } from "./crypto";
