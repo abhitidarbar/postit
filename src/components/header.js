@@ -14,9 +14,9 @@ export default function Header(props) {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 512 * 512) {
+    if (file.size > 1024 * 1024) {
       setErrorMessage(
-        "Image size exceeds 512 x 512. Please choose a smaller file."
+        "Image size exceeds 1024 x 1024. Please choose a smaller file."
       );
       return;
     }
@@ -66,6 +66,7 @@ export default function Header(props) {
           }}
         ></textarea>
       </span>
+
       {attachment != "#" && (
         <img
           className="max-w-60 max-h-60 w-fit h-fit rounded-2xl mt-4"

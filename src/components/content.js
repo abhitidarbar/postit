@@ -41,7 +41,11 @@ export default function Content(props) {
               <div className="flex p-4">
                 <img
                   className="w-10 h-10 rounded-full"
-                  src="./default-user-avatar.png"
+                  src={
+                    p.User.Avatar?.startsWith("data:image/")
+                      ? p.User.Avatar
+                      : "./default-user-avatar.png"
+                  }
                   alt="Rounded avatar"
                 />
                 <div className="ml-3">

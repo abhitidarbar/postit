@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../../utils/regex";
 import dayjs from "dayjs";
-import Actions from "../../utils/action";
+import { getFromLocalStorage } from "../../utils/localstorage";
+import { defaultAddressKey } from "../../types/types";
+import { updateAvatar } from "../../txs/user";
 
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
@@ -14,18 +16,24 @@ export default function Profile() {
   const [user, setUser] = useState({});
   const [offset, setOffset] = useState(0);
   const [refresh, setRefresh] = useState(0);
+  const [profilePicture, setProfilePicture] = useState("#");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
 
   const getUser = async () => {
-    const actions = await Actions.getInstance();
-    actions.getAddress().then(async (address) => {
+    const address = getFromLocalStorage(defaultAddressKey);
+    try {
       const res = await provider.evaluateExpression(
         "gno.land/r/demo/postit",
         `GetUserByAddress("${address.toString()}")`
       );
       const response = getObjectFromStringResponse(res);
       setUser(response);
-    });
+      setProfilePicture(user.Avatar);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const getPostsPaginated = async () => {
@@ -45,6 +53,40 @@ export default function Profile() {
     getPostsPaginated();
   }, [refresh, user]);
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 1024 * 1024) {
+      setErrorMessage(
+        "Image size exceeds 1024 x 1024. Please choose a smaller file."
+      );
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfilePicture(reader.result);
+      setErrorMessage("");
+    };
+    reader.readAsDataURL(file);
+  };
+  const updateAvatarTx = async () => {
+    setLoading(true);
+    const address = getFromLocalStorage(defaultAddressKey);
+
+    try {
+      updateAvatar(address, profilePicture).then((response) => {
+        {
+          response.code === 0
+            ? window.location.reload()
+            : console.error(response);
+        }
+        setLoading(false);
+      });
+    } catch (err) {
+      console.log("error in calling updateAvatar", err);
+    }
+  };
   return (
     <div className="flex w-screen bg-black">
       <div className="w-1/6 p-4"></div>
@@ -54,7 +96,7 @@ export default function Profile() {
       <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0"></hr>
       <div className="w-1/2 py-1">
         <div className="flex">
-          <a
+          <div
             href="/"
             rel="noreferrer"
             className="flex ml-4 hover:bg-gray-800 rounded-full items-center justify-center px-4"
@@ -75,7 +117,7 @@ export default function Profile() {
                 d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
               />
             </svg>
-          </a>
+          </div>
           <div className="mt-1 ml-8">
             <div className="text-lg font-bold">{user.Name}</div>
             <div className="text-gray-400 text-sm font-bold">
@@ -83,11 +125,84 @@ export default function Profile() {
             </div>
           </div>
         </div>
+
         <img
           className="w-24 h-24 rounded-full ml-4 mt-10"
-          src="./default-user-avatar.png"
+          src={
+            user.Avatar?.startsWith("data:image/")
+              ? user.Avatar
+              : "./default-user-avatar.png"
+          }
           alt="Rounded avatar"
+          onClick={() => document.getElementById("my_modal_3").showModal()}
         />
+
+        <dialog id="my_modal_3" className="modal">
+          <div className="modal-box bg-grey">
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                ✕
+              </button>
+            </form>
+
+            <img
+              className="w-60 h-60 w-fit h-fit rounded-full mt-4 mb-5"
+              src={
+                profilePicture?.startsWith("data:image/")
+                  ? profilePicture
+                  : "./default-user-avatar.png"
+              }
+            ></img>
+
+            {errorMessage && (
+              <p className="text-red-500 text-xs mt-4">{errorMessage}</p>
+            )}
+            <div className="mt-1 mb-10">
+              <div>
+                <div>
+                  <input
+                    className="text-xs"
+                    type="file"
+                    accept="image/x-png,image/gif,image/jpeg"
+                    onChange={(e) => {
+                      handleFileChange(e);
+                    }}
+                  />
+                </div>
+                <br />
+              </div>
+            </div>
+            <div className="absolute right-5 bottom-5">
+              <button
+                type="button"
+                className={
+                  "flex text-white bg-sky-500 hover:bg-sky-600 disabled:bg-gray-500 font-bold rounded-full text-md py-1.5 text-center mb-2 px-8"
+                }
+                onClick={() => {
+                  updateAvatarTx();
+                }}
+                disabled={loading}
+              >
+                Update Avatar
+                {loading ? (
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    className="ml-2 animate-spin"
+                    viewBox="0 0 1792 1792"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M526 1394q0 53-37.5 90.5t-90.5 37.5q-52 0-90-38t-38-90q0-53 37.5-90.5t90.5-37.5 90.5 37.5 37.5 90.5zm498 206q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-704-704q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm1202 498q0 52-38 90t-90 38q-53 0-90.5-37.5t-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-964-996q0 66-47 113t-113 47-113-47-47-113 47-113 113-47 113 47 47 113zm1170 498q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-640-704q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm530 206q0 93-66 158.5t-158 65.5q-93 0-158.5-65.5t-65.5-158.5q0-92 65.5-158t158.5-66q92 0 158 66t66 158z"></path>
+                  </svg>
+                ) : (
+                  ""
+                )}
+              </button>
+            </div>
+          </div>
+        </dialog>
+
         <div className="text-lg mt-4 ml-4 font-bold">{user.Name}</div>
         <div className="text-gray-500 ml-4">{"@" + user.Username}</div>
         <div className="ml-4 mt-3 mb-4 text-sm {user.Username === '' ? italic : ''}">
@@ -101,7 +216,6 @@ export default function Profile() {
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {" "}
             <path d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268M1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1" />
           </svg>
           <div className="text-gray-500 ml-1 text-sm">{user.Address}</div>{" "}
@@ -143,7 +257,11 @@ export default function Profile() {
                 <div className="flex p-4">
                   <img
                     className="w-10 h-10 rounded-full"
-                    src="./default-user-avatar.png"
+                    src={
+                      user.Avatar?.startsWith("data:image/")
+                        ? user.Avatar
+                        : "./default-user-avatar.png"
+                    }
                     alt="Rounded avatar"
                   />
                   <div className="ml-3">
@@ -155,6 +273,35 @@ export default function Profile() {
                       </div>
                     </div>
                     <div>{p.Body}</div>
+                    <dialog id={p.Id} className="modal">
+                      <div className="modal-box p-0">
+                        <form method="dialog">
+                          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                            ✕
+                          </button>
+                        </form>
+                        <img
+                          className="rounded-2xl w-full h-full"
+                          src={p.Attachment}
+                        ></img>
+                      </div>
+                      <form method="dialog" className="modal-backdrop">
+                        <button>close</button>
+                      </form>
+                    </dialog>
+                    {p.Attachment.startsWith("data:image/") && (
+                      <button
+                        className=""
+                        onClick={() =>
+                          document.getElementById(p.Id).showModal()
+                        }
+                      >
+                        <img
+                          className="rounded-2xl max-w-60 max-h-60 mt-1"
+                          src={p.Attachment}
+                        ></img>
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div className="flex">

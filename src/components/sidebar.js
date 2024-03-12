@@ -34,7 +34,6 @@ export default function Sidebar() {
 
   // make sure to call this only after setAccount
   const getUser = async () => {
-    console.log("get user");
     const address = getFromLocalStorage(defaultAddressKey);
     try {
       const res = await provider.evaluateExpression(
@@ -81,7 +80,11 @@ export default function Sidebar() {
             <button className="flex hover:bg-gray-600 rounded-full w-48 py-2">
               <img
                 className="w-10 h-10 rounded-full mt-1 ml-3"
-                src="./default-user-avatar.png"
+                src={
+                  user.Avatar?.startsWith("data:image/")
+                    ? user.Avatar
+                    : "./default-user-avatar.png"
+                }
                 alt="Rounded avatar"
               />
               <div className="ml-3">
