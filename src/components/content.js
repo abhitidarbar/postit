@@ -53,6 +53,10 @@ export default function Content(props) {
                     </div>
                   </div>
                   <div>{p.Body}</div>
+                  <img
+                    className="rounded-2xl max-w-60 max-h-60 mt-1"
+                    src={p.image}
+                  ></img>
                 </div>
               </div>
               <div className="flex">

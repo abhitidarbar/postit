@@ -1,9 +1,28 @@
 "use client";
 import Actions from "../utils/action";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export default function Header(props) {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState("#");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 1024 * 1024) {
+      setErrorMessage("File size exceeds 1MB. Please choose a smaller file.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImage(reader.result);
+      setErrorMessage("");
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleInput = (e) => {
     setContent(e.target.value);
   };
@@ -11,9 +30,10 @@ export default function Header(props) {
     setLoading(true);
     const actions = await Actions.getInstance();
     try {
-      actions.createPost(content).then((response) => {
+      actions.createPost(content, image).then((response) => {
         console.log(response);
         setContent("");
+        setImage("#");
         setLoading(false);
         props.setRefresh(props.refresh + 1);
       });
@@ -22,8 +42,8 @@ export default function Header(props) {
     }
   };
   return (
-    <div className="flex flex-col">
-      <span className="flex ml-4">
+    <div className="flex flex-col p-4">
+      <span className="flex">
         <img
           className="w-10 h-10 rounded-full"
           src="./default-user-avatar.png"
@@ -40,8 +60,30 @@ export default function Header(props) {
           }}
         ></textarea>
       </span>
-
-      <div className="mt-4 ml-auto mr-4">
+      {image != "#" && (
+        <img
+          className="max-w-60 max-h-60 w-fit h-fit rounded-2xl mt-4"
+          src={image}
+        ></img>
+      )}
+      {errorMessage && (
+        <p className="text-red-500 text-xs mt-4">{errorMessage}</p>
+      )}
+      <div className="mt-1">
+        <div>
+          <div>
+            <input
+              className="text-xs"
+              type="file"
+              onChange={(e) => {
+                handleFileChange(e);
+              }}
+            />
+          </div>
+          <br />
+        </div>
+      </div>
+      <div className="ml-auto mr-4">
         <button
           type="button"
           className={
