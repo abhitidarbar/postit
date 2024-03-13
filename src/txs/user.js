@@ -22,3 +22,14 @@ export async function updateAvatar(addr, avatar) {
   });
   return res;
 }
+
+export async function updateBio(addr, bio) {
+  const message = generateMessage(addr, "UpdateBio", [bio]);
+  const res = await adena.DoContract({
+    messages: [message],
+    gasFee: Config.GAS_FEE,
+    gasWanted: Config.GAS_WANTED,
+    memo: "setAvatar",
+  });
+  return res;
+}

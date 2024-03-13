@@ -70,13 +70,19 @@ export default function Sidebar() {
           </a>
           <a
             className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-10 py-2.5 text-center mb-2 w-48"
-            href="/profile"
+            href={"/" + user.Username}
             rel="noreferrer"
           >
             Profile
           </a>
-
-          <a className="" rel="noreferrer" href="/profile">
+          <a
+            className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-10 py-2.5 text-center mb-2 w-48"
+            href={"/search"}
+            rel="noreferrer"
+          >
+            Explore
+          </a>
+          <a className="" rel="noreferrer" href={"/" + user.Username}>
             <button className="flex hover:bg-gray-600 rounded-full w-48 py-2">
               <img
                 className="w-10 h-10 rounded-full mt-1 ml-3"

@@ -5,7 +5,7 @@ import Trending from "../components/trending";
 import { getFromLocalStorage } from "../utils/localstorage";
 import { defaultAddressKey } from "../types/types";
 import { useState } from "react";
-import Login from "../components/login";
+
 export default function Home() {
   const [refresh, setRefresh] = useState(0);
   const [wallet, setWallet] = useState("");

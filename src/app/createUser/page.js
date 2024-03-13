@@ -35,7 +35,7 @@ export default function Login(props) {
   };
 
   return userCreated ? (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center h-screen">
       <div className="mt-48 text-5xl">Yay!</div>
       <div className="text-base text-gray-300 mt-5">
         User Created Succesfully
