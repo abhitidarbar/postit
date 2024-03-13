@@ -24,25 +24,29 @@ export default function Profile() {
   const getUser = async () => {
     const address = getFromLocalStorage(defaultAddressKey);
     try {
-      const res = await provider.evaluateExpression(
+      const res = await provider?.evaluateExpression(
         "gno.land/r/demo/postit",
         `GetUserByAddress("${address.toString()}")`
       );
-      const response = getObjectFromStringResponse(res);
-      setUser(response);
-      setProfilePicture(user.Avatar);
+      if (res) {
+        const response = getObjectFromStringResponse(res);
+        setUser(response);
+        setProfilePicture(response.Avatar);
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
   const getPostsPaginated = async () => {
-    const res = await provider.evaluateExpression(
+    const res = await provider?.evaluateExpression(
       "gno.land/r/demo/postit",
       `ListUserPostsByOffset("${user.Username}",` + offset + `,10)`
     );
-    const response = getObjectFromStringResponse(res);
-    setPosts(response);
+    if (res) {
+      const response = getObjectFromStringResponse(res);
+      setPosts(response);
+    }
   };
 
   useEffect(() => {
@@ -138,7 +142,7 @@ export default function Profile() {
         />
 
         <dialog id="my_modal_3" className="modal">
-          <div className="modal-box bg-grey">
+          <div className="modal-box bg-grey flex flex-col items-center">
             <form method="dialog">
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                 ✕
@@ -146,7 +150,7 @@ export default function Profile() {
             </form>
 
             <img
-              className="w-60 h-60 w-fit h-fit rounded-full mt-4 mb-5"
+              className="w-60 h-60 rounded-full mt-4 mb-5"
               src={
                 profilePicture?.startsWith("data:image/")
                   ? profilePicture
@@ -157,22 +161,17 @@ export default function Profile() {
             {errorMessage && (
               <p className="text-red-500 text-xs mt-4">{errorMessage}</p>
             )}
-            <div className="mt-1 mb-10">
-              <div>
-                <div>
-                  <input
-                    className="text-xs"
-                    type="file"
-                    accept="image/x-png,image/gif,image/jpeg"
-                    onChange={(e) => {
-                      handleFileChange(e);
-                    }}
-                  />
-                </div>
-                <br />
-              </div>
-            </div>
-            <div className="absolute right-5 bottom-5">
+
+            <input
+              className="text-xs mt-1 mb-6 w-1/3 ml-2"
+              type="file"
+              accept="image/x-png,image/gif,image/jpeg"
+              onChange={(e) => {
+                handleFileChange(e);
+              }}
+            />
+
+            <div className="">
               <button
                 type="button"
                 className={
