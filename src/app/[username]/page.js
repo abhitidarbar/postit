@@ -75,7 +75,7 @@ export default function Profile({ params }) {
     try {
       const res = await provider
         ?.evaluateExpression(
-          "gno.land/r/demo/postit",
+          config.GNO_POSTIT_REALM,
           `GetUserByUsername("${username.toString()}")`
         )
         .then((res) => {
@@ -98,7 +98,7 @@ export default function Profile({ params }) {
     setTimeout(async () => {
       try {
         const res = await provider?.evaluateExpression(
-          "gno.land/r/demo/postit",
+          config.GNO_POSTIT_REALM,
           `ListUserPostsByOffset("${user.Username}",` + offset + `,10)`
         );
         if (res) {

@@ -18,7 +18,7 @@ export default function Content(props) {
   useEffect(() => {
     const getPostsPaginated = async () => {
       const res = await provider.evaluateExpression(
-        "gno.land/r/demo/postit",
+        config.GNO_POSTIT_REALM,
         "ListPostsByOffset(" + offset + ",30)"
       );
       const response = getObjectFromStringResponse(res);

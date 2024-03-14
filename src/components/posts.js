@@ -27,7 +27,7 @@ export default function PostView(props) {
 
   const getLikedBy = async (id) => {
     const res = await provider.evaluateExpression(
-      "gno.land/r/demo/postit",
+      config.GNO_POSTIT_REALM,
       `ListPostLikedBy(` + id + `,` + offset + `,10)`
     );
     const response = getObjectFromStringResponse(res);
@@ -39,7 +39,7 @@ export default function PostView(props) {
     const address = getFromLocalStorage(defaultAddressKey);
     try {
       const res = await provider.evaluateExpression(
-        "gno.land/r/demo/postit",
+        config.GNO_POSTIT_REALM,
         `GetUserByAddress("${address.toString()}")`
       );
       const response = getObjectFromStringResponse(res);

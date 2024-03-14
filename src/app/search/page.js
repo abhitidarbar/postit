@@ -24,7 +24,7 @@ export default function Search(props) {
     if (keyword.length > 0 || searchParam.length > 0) {
       const res = await provider
         .evaluateExpression(
-          "gno.land/r/demo/postit",
+          config.GNO_POSTIT_REALM,
           `ListKeywordPostsByOffset("${
             keyword.length > 0 ? keyword : searchParam
           }",` +

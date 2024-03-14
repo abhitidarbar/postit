@@ -38,7 +38,7 @@ export default function Sidebar() {
     const address = getFromLocalStorage(defaultAddressKey);
     try {
       const res = await provider.evaluateExpression(
-        "gno.land/r/demo/postit",
+        config.GNO_POSTIT_REALM,
         `GetUserByAddress("${address.toString()}")`
       );
       const response = getObjectFromStringResponse(res);

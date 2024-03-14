@@ -25,7 +25,7 @@ export default function Login(props) {
         })
         .finally(async () => {
           const userCount = await provider.evaluateExpression(
-            "gno.land/r/demo/postit",
+            config.GNO_POSTIT_REALM,
             "GetUserCount()"
           );
           console.log("usercount", userCount);
