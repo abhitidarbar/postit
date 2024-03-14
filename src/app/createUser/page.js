@@ -54,26 +54,29 @@ export default function Login(props) {
     <div className="flex flex-col items-center h-screen">
       <div className="mt-48 text-5xl">Create User</div>
 
-      <div className="flex mt-14">
-        <div className="text-base text-gray-300 mr-4">Enter your Name</div>
-        <input
-          className="rounded text-black text-center"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-      </div>
-
-      <div className="flex mt-4">
-        <div className="text-base text-gray-300 mr-4">Enter your username</div>
-        <input
-          className="rounded text-black text-center"
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-        />
+      <div className="flex flex-col w-96 mb-6">
+        <div className="flex justify-between mt-14">
+          <div className="text-base text-gray-300 mr-4">Enter your Name</div>
+          <input
+            className="rounded text-black text-center bg-white"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+        </div>
+        <div className="flex justify-between mt-4 ">
+          <div className="self-start text-base text-gray-300 mr-4">
+            Enter your username
+          </div>
+          <input
+            className="rounded text-black text-center bg-white"
+            value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+          />
+        </div>
       </div>
 
       <button
