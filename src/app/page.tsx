@@ -22,7 +22,7 @@ export default function Home() {
   });
 
   return load ? (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center h-screen">
       <span className="flex flex-row justify-center w-48">
         <div className="font-bold">POST</div>
         <div className="font-bold">.</div>

@@ -26,7 +26,7 @@ export default function Search(props) {
   }, [props.refresh]);
 
   return (
-    <div className="flex w-screen h-screen bg-black">
+    <div className="flex w-screen bg-black">
       <div className="w-1/6 p-4"></div>
       <div className="w-1/4 p-4">
         <Sidebar />

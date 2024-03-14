@@ -93,7 +93,7 @@ export default function Sidebar() {
                 }
                 alt="Rounded avatar"
               />
-              <div className="ml-3">
+              <div className="ml-3 flex flex-col items-start">
                 <div className="text-white font-bold">{user.Name}</div>
                 <div className="text-gray-500">{user.Username}</div>
               </div>
