@@ -5,25 +5,46 @@ import PostView from "../../components/posts";
 import { getObjectFromStringResponse } from "../../utils/regex";
 import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
+import { useSearchParams } from "next/navigation";
 
 export default function Search(props) {
   const [searchParam, setSearchParam] = useState("");
   const [posts, setPosts] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [keyword, setKeyword] = useState("");
+
+  const params = useSearchParams();
+  let key = params.get("keyword");
+
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
 
   const getPostsPaginated = async () => {
-    const res = await provider.evaluateExpression(
-      "gno.land/r/demo/postit",
-      `ListKeywordPostsByOffset("${searchParam}",` + offset + `,10)`
-    );
-    const response = getObjectFromStringResponse(res);
-    setPosts(response);
+    if (keyword.length > 0 || searchParam.length > 0) {
+      const res = await provider
+        .evaluateExpression(
+          "gno.land/r/demo/postit",
+          `ListKeywordPostsByOffset("${
+            keyword.length > 0 ? keyword : searchParam
+          }",` +
+            offset +
+            `,10)`
+        )
+        .then((res) => {
+          const response = getObjectFromStringResponse(res);
+          setPosts(response);
+          if (keyword.length > 0) setKeyword("");
+        });
+    }
   };
 
   useEffect(() => {
+    if (key === null || key === undefined || key === "") return;
+    setKeyword(key);
+  }, [key]);
+
+  useEffect(() => {
     getPostsPaginated();
-  }, [props.refresh]);
+  }, [keyword]);
 
   return (
     <div className="flex w-screen bg-black">
