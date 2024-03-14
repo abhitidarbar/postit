@@ -63,21 +63,21 @@ export default function Sidebar() {
       {user?.Address?.length > 0 ? (
         <div className="flex flex-col">
           <a
-            className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-10 py-2.5 text-center mb-2 w-48"
+            className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-7 py-2.5 text-left mb-2 w-fit"
             href="/"
             rel="noreferrer"
           >
             Home
           </a>
           <a
-            className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-10 py-2.5 text-center mb-2 w-48"
+            className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-7 py-2.5 text-left mb-2 w-fit"
             href={"/" + user.Username}
             rel="noreferrer"
           >
             Profile
           </a>
           <a
-            className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-10 py-2.5 text-center mb-2 w-48"
+            className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-7 py-2.5 text-left mb-2 w-fit"
             href={"/search"}
             rel="noreferrer"
           >
