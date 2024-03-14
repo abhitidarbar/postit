@@ -133,7 +133,7 @@ export default function PostView(props) {
           xmlns="http://www.w3.org/2000/svg"
           className="ml-auto mr-1 hover:cursor-pointer"
           onClick={() => {
-            likePostTx(props.p.Id);
+            !alreadyLiked(props.p.LikedBy) ? likePostTx(props.p.Id) : "";
           }}
         >
           <path
