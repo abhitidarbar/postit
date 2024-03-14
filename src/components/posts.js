@@ -14,6 +14,15 @@ export default function PostView(props) {
   const [offset, setOffset] = useState(0);
   const [likedBy, setLikedBy] = useState([]);
   const [user, setUser] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const getLikedBy = async (id) => {
     const res = await provider.evaluateExpression(
@@ -114,7 +123,6 @@ export default function PostView(props) {
           )}
         </div>
       </div>
-      {console.log(alreadyLiked(props.p.LikedBy))}
       <div className="flex mr-12">
         <svg
           width="25px"
@@ -142,53 +150,67 @@ export default function PostView(props) {
             "text-sm mt-0.5 hover:cursor-pointer hover:underline " +
             (!alreadyLiked(props.p.LikedBy) ? "text-gray" : "text-pink-600")
           }
-          onClick={() => {
-            getLikedBy(props.p.Id);
-            document.getElementById("my_modal_2").showModal();
+          onClick={async () => {
+            await getLikedBy(props.p.Id).then((res) => {
+              openModal();
+            });
           }}
         >
           {props.p.LikedBy.length}
         </div>
-
-        <dialog id="my_modal_2" className="modal">
-          <div className="modal-box">
-            <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        <input
+          type="checkbox"
+          checked={isModalOpen}
+          readOnly
+          className="modal-toggle"
+        />
+        {isModalOpen ? (
+          <div className="modal">
+            <div className="modal-box bg-grey-500">
+              <button
+                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                onClick={() => {
+                  closeModal();
+                }}
+              >
                 ✕
               </button>
-            </form>
-            <div className="font-bold mb-4">Liked by</div>
-            {likedBy.length < 1 && <div className="italic text-sm">None</div>}
 
-            {likedBy.map((u, index = 0) => {
-              return (
-                <Link
-                  className="flex mb-4 hover:cursor-pointer"
-                  key={index}
-                  href={"/" + u.Username}
-                >
-                  <img
-                    className="w-11 h-11 rounded-full mr-2"
-                    src={
-                      u.Avatar?.startsWith("data:image/")
-                        ? u.Avatar
-                        : "./default-user-avatar.png"
-                    }
-                    alt="Rounded avatar"
-                  />
-                  <div className="">
-                    <a className="font-bold text-sm">{u.Name}</a>
-                    <div className="text-gray-400 text-sm">@{u.Username}</div>
-                  </div>
-                </Link>
-              );
-            })}
+              <div className="font-bold mb-4">Liked by</div>
+              {likedBy.length > 0 ? (
+                likedBy.map((u, index) => {
+                  return (
+                    <Link
+                      className="flex mb-4 hover:cursor-pointer"
+                      key={index}
+                      href={"/" + u.Username}
+                    >
+                      <img
+                        className="w-11 h-11 rounded-full mr-2"
+                        src={
+                          u.Avatar?.startsWith("data:image/")
+                            ? u.Avatar
+                            : "./default-user-avatar.png"
+                        }
+                        alt="Rounded avatar"
+                      />
+                      <div className="">
+                        <div className="font-bold text-sm">{u.Name}</div>
+                        <div className="text-gray-400 text-sm">
+                          @{u.Username}
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })
+              ) : (
+                <div className="italic text-sm ">None</div>
+              )}
+            </div>
           </div>
-
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

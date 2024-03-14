@@ -12,6 +12,7 @@ export default function Search(props) {
   const [posts, setPosts] = useState([]);
   const [offset, setOffset] = useState(0);
   const [keyword, setKeyword] = useState("");
+  const [refresh, setRefresh] = useState(0);
 
   const params = useSearchParams();
   let key = params.get("keyword");
@@ -44,7 +45,7 @@ export default function Search(props) {
 
   useEffect(() => {
     getPostsPaginated();
-  }, [keyword]);
+  }, [keyword, refresh]);
 
   return (
     <div className="flex w-screen bg-black">
@@ -110,7 +111,7 @@ export default function Search(props) {
         <hr className="w-full border-l border-gray-200 opacity-25 sticky mt-4"></hr>
         <div className="flex flex-col">
           {posts.map((p, index = 0) => {
-            return <PostView p={p} index={index} />;
+            return <PostView p={p} index={index} setRefresh={setRefresh} />;
           })}
         </div>
       </div>
