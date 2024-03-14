@@ -13,9 +13,9 @@ export default function Header(props) {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 1024 * 1024) {
+    if (file.size > 512 * 512) {
       setErrorMessage(
-        "Image size exceeds 1024 x 1024. Please choose a smaller file."
+        "Image size exceeds 512 x 512. Please choose a smaller file."
       );
       return;
     }
