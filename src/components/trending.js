@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../utils/regex";
-import Link from "next/link";
+import config from "../config/config";
 export default function Trending(props) {
   const [trending, setTrending] = useState([]);
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);

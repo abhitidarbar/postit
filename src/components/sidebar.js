@@ -5,6 +5,7 @@ import { defaultAddressKey } from "../types/types";
 import { saveToLocalStorage } from "../utils/localstorage";
 import Link from "next/link";
 import { getFromLocalStorage } from "../utils/localstorage";
+import config from "../config/config";
 export default function Sidebar() {
   const [user, setUser] = useState({});
   const [adenaStatus, setAdenaStatus] = useState("failure");

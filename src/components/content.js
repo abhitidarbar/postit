@@ -5,6 +5,7 @@ import Header from "./header";
 import { getObjectFromStringResponse } from "../utils/regex";
 import dayjs from "dayjs";
 import PostView from "./posts";
+import config from "../config/config";
 
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);

@@ -5,6 +5,7 @@ import Link from "next/link";
 import createUser from "../../txs/user";
 import { getFromLocalStorage } from "../../utils/localstorage";
 import { defaultAddressKey } from "../../types/types";
+import config from "../../config/config";
 
 export default function Login(props) {
   const [name, setName] = useState("");

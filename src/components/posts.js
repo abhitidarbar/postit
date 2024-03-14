@@ -8,6 +8,7 @@ import { getFromLocalStorage } from "../utils/localstorage";
 import { defaultAddressKey } from "../types/types";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../utils/regex";
+import config from "../config/config";
 
 export default function PostView(props) {
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);

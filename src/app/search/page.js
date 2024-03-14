@@ -6,6 +6,7 @@ import { getObjectFromStringResponse } from "../../utils/regex";
 import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { useSearchParams } from "next/navigation";
+import config from "../../config/config";
 
 export default function Search(props) {
   const [searchParam, setSearchParam] = useState("");
