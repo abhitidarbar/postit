@@ -26,7 +26,7 @@ export default function Profile({ params }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [load, setLoad] = useState(true);
-  const [found, setFound] = useState(false);
+  const [found, setFound] = useState(true);
   const provider = new GnoJSONRPCProvider("http://localhost:26657");
 
   const handleMouseEnter = () => {
@@ -88,6 +88,7 @@ export default function Profile({ params }) {
           }
         });
     } catch (e) {
+      setFound(false);
       console.error(e);
     }
   };
