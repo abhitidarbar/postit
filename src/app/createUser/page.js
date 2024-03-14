@@ -50,7 +50,7 @@ export default function Login(props) {
       </Link>
     </div>
   ) : (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center h-screen">
       <div className="mt-48 text-5xl">Create User</div>
 
       <div className="flex mt-14">

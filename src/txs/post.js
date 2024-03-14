@@ -11,3 +11,14 @@ export default async function createPost(addr, body, attachment) {
   });
   return res;
 }
+export async function likePost(addr, id) {
+  const message = generateMessage(addr, "LikePost", [id.toString()]);
+  console.log(message);
+  const res = await adena.DoContract({
+    messages: [message],
+    gasFee: Config.GAS_FEE,
+    gasWanted: Config.GAS_WANTED,
+    memo: "likePost",
+  });
+  return res;
+}

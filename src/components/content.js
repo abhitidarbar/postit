@@ -32,7 +32,7 @@ export default function Content(props) {
       <hr className="w-full border-l border-gray-200 opacity-25 sticky mt-4"></hr>
       <div className="flex flex-col">
         {posts.map((p, index = 0) => {
-          return <PostView p={p} index={index} />;
+          return <PostView p={p} index={index} setRefresh={props.setRefresh} />;
         })}
         <div className="h-20"></div>
       </div>
