@@ -25,7 +25,7 @@ export default function Trending(props) {
           <div className="mt-4" key={i}>
             <div className="text-gray-500 text-sm">{i + 1 + " . Trending"}</div>
             <div
-              className="font-bold"
+              className="font-bold hover:cursor-pointer"
               onClick={() => {
                 window.location =
                   "/search?keyword=" + encodeURIComponent("#" + t.tag);
