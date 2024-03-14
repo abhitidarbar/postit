@@ -12,7 +12,7 @@ dayjs.extend(relativeTime);
 export default function Content(props) {
   const [posts, setPosts] = useState([]);
   const [offset, setOffset] = useState(0);
-  const provider = new GnoJSONRPCProvider("http://localhost:26657");
+  const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
   useEffect(() => {
     const getPostsPaginated = async () => {

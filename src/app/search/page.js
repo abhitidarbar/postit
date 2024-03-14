@@ -17,7 +17,7 @@ export default function Search(props) {
   const params = useSearchParams();
   let key = params.get("keyword");
 
-  const provider = new GnoJSONRPCProvider("http://localhost:26657");
+  const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
   const getPostsPaginated = async () => {
     if (keyword.length > 0 || searchParam.length > 0) {

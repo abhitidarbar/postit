@@ -8,7 +8,7 @@ import { getFromLocalStorage } from "../utils/localstorage";
 export default function Sidebar() {
   const [user, setUser] = useState({});
   const [adenaStatus, setAdenaStatus] = useState("failure");
-  const provider = new GnoJSONRPCProvider("http://localhost:26657");
+  const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
   const connectWallet = async () => {
     //look for the adena object

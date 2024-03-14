@@ -4,7 +4,7 @@ import { getObjectFromStringResponse } from "../utils/regex";
 import Link from "next/link";
 export default function Trending(props) {
   const [trending, setTrending] = useState([]);
-  const provider = new GnoJSONRPCProvider("http://localhost:26657");
+  const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
   useEffect(() => {
     async function getTrending() {
       const tres = await provider.evaluateExpression(

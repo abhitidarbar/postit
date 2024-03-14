@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { getFromLocalStorage } from "../../utils/localstorage";
 import { defaultAddressKey } from "../../types/types";
 import { updateAvatar, updateBio } from "../../txs/user";
+import config from "../../config/config";
 import Link from "next/link";
 
 var relativeTime = require("dayjs/plugin/relativeTime");
@@ -27,7 +28,7 @@ export default function Profile({ params }) {
   const [isFetching, setIsFetching] = useState(false);
   const [load, setLoad] = useState(true);
   const [found, setFound] = useState(true);
-  const provider = new GnoJSONRPCProvider("http://localhost:26657");
+  const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
   const handleMouseEnter = () => {
     setIsHovered(true);

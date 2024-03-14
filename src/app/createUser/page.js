@@ -11,7 +11,7 @@ export default function Login(props) {
   const [username, setUsername] = useState("");
   const [userCreated, setUserCreated] = useState(false);
 
-  const provider = new GnoJSONRPCProvider("http://localhost:26657");
+  const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
   const createUserTx = async () => {
     const address = getFromLocalStorage(defaultAddressKey);
     console.log(address);

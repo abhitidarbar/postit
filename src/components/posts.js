@@ -10,7 +10,7 @@ import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../utils/regex";
 
 export default function PostView(props) {
-  const provider = new GnoJSONRPCProvider("http://localhost:26657");
+  const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
   const [offset, setOffset] = useState(0);
   const [likedBy, setLikedBy] = useState([]);
   const [user, setUser] = useState({});
