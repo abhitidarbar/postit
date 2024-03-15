@@ -48,7 +48,7 @@ export default function Header(props) {
   };
   return (
     <div className="flex flex-col p-4">
-      <span className="flex">
+      <div className="flex">
         <img
           className="w-10 h-10 rounded-full"
           src="./default-user-avatar.png"
@@ -58,13 +58,13 @@ export default function Header(props) {
         <textarea
           type="type"
           value={content}
-          className="ml-2 text-white bg-black p-2 border-none w-96 focus:border-none outline-none resize-none"
+          className="ml-2 text-white bg-black p-2 border-none w-full focus:border-none outline-none resize-none"
           placeholder="What's happening?!"
           onChange={(e) => {
             handleInput(e);
           }}
         ></textarea>
-      </span>
+      </div>
 
       {attachment != "#" && (
         <img
