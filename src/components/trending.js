@@ -7,12 +7,16 @@ export default function Trending(props) {
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
   useEffect(() => {
     async function getTrending() {
-      const tres = await provider.evaluateExpression(
-        config.GNO_POSTIT_REALM,
-        "GetTrending()"
-      );
-      let trends = getObjectFromStringResponse(tres);
-      setTrending(trends);
+      try {
+        const tres = await provider.evaluateExpression(
+          config.GNO_POSTIT_REALM,
+          "GetTrending()"
+        );
+        let trends = getObjectFromStringResponse(tres);
+        setTrending(trends);
+      } catch (e) {
+        console.error(e);
+      }
     }
     getTrending();
   }, [props.refresh]);

@@ -18,6 +18,7 @@ const getFromLocalStorage = (key: string): string => {
   if (typeof window !== "undefined" && window.localStorage) {
     return localStorage.getItem(key) ?? "";
   }
+  return "";
 };
 
 export { saveToLocalStorage, getFromLocalStorage };

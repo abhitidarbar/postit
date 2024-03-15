@@ -70,7 +70,7 @@ export default function PostView(props) {
   }, []);
 
   return (
-    <div key={props.index}>
+    <div>
       {props.index !== 0 ? (
         <hr className="w-full border-l border-gray-200 opacity-25 sticky mt-4"></hr>
       ) : (

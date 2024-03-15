@@ -441,7 +441,7 @@ export default function Profile({ params }) {
         <hr className="w-full border-l border-gray-200 opacity-25 sticky mt-4"></hr>
         <div className="flex flex-col">
           {posts.map((p, index = 0) => {
-            return <PostView p={p} index={index} setRefresh={setRefresh} />;
+            return <PostView p={p} key={index} setRefresh={setRefresh} />;
           })}
           <div className="h-20"></div>
         </div>
