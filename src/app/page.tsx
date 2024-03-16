@@ -4,7 +4,7 @@ import Content from "../components/content";
 import Trending from "../components/trending";
 import { getFromLocalStorage } from "../utils/localstorage";
 import { defaultAddressKey } from "../types/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [refresh, setRefresh] = useState(0);
@@ -17,7 +17,7 @@ export default function Home() {
     setLoad(false);
   }
 
-  useState(() => {
+  useEffect(() => {
     checkMnemonic();
   });
 

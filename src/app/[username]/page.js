@@ -1,7 +1,7 @@
 "use client";
 import Sidebar from "../../components/sidebar";
 import Trending from "../../components/trending";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../../utils/regex";
 import dayjs from "dayjs";
@@ -11,6 +11,7 @@ import { updateAvatar, updateBio } from "../../txs/user";
 import config from "../../config/config";
 import Link from "next/link";
 import PostView from "../../components/posts";
+import PostList from "../../components/postList";
 
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
@@ -18,7 +19,6 @@ dayjs.extend(relativeTime);
 export default function Profile({ params }) {
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
-  const [offset, setOffset] = useState(0);
   const [refresh, setRefresh] = useState(0);
   const [profilePicture, setProfilePicture] = useState("#");
   const [userBio, setUserBio] = useState("");
@@ -66,30 +66,9 @@ export default function Profile({ params }) {
     }
   };
 
-  const getPostsPaginated = async () => {
-    setTimeout(async () => {
-      try {
-        const res = await provider?.evaluateExpression(
-          config.GNO_POSTIT_REALM,
-          `ListUserPostsByOffset("${user.Username}",` + offset + `,30)`
-        );
-        if (res) {
-          const response = getObjectFromStringResponse(res);
-          setPosts([...posts, ...response]);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    }, 2000);
-  };
-
   useEffect(() => {
     getUser();
   }, [username]);
-
-  useEffect(() => {
-    getPostsPaginated();
-  }, [user, refresh]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -438,13 +417,15 @@ export default function Profile({ params }) {
           <div className="text-gray-500 ml-1">followers</div>
         </div>
       </div> */}
-        <hr className="w-full border-l border-gray-200 opacity-25 sticky mt-4"></hr>
-        <div className="flex flex-col">
-          {posts.map((p, index = 0) => {
-            return <PostView p={p} key={index} setRefresh={setRefresh} />;
-          })}
-          <div className="h-20"></div>
-        </div>
+        <Suspense>
+          <PostList offset={0} setPosts={setPosts} user={user} />
+          <div className="flex flex-col">
+            {posts.map((p, index = 0) => {
+              return <PostView p={p} key={index} setRefresh={setRefresh} />;
+            })}
+            <div className="h-20"></div>
+          </div>
+        </Suspense>
       </div>
       <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0"></hr>
       <div className="w-1/4 p-4">

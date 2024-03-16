@@ -5,7 +5,6 @@ import PostView from "../../components/posts";
 import { getObjectFromStringResponse } from "../../utils/regex";
 import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
-import { useSearchParams } from "next/navigation";
 import config from "../../config/config";
 import { Suspense } from "react";
 
