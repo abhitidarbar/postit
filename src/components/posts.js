@@ -91,7 +91,20 @@ export default function PostView(props) {
               {dayjs(props.p.CreatedAt).fromNow()}
             </div>
           </div>
-          <div>{props.p.Body}</div>
+          {props.p.Body.split(" ").map((w, index) => {
+            return w.startsWith("#") ? (
+              <a
+                className="text-sky-500 hover:cursor-pointer"
+                onClick={() => {
+                  window.location = "/search?keyword=" + encodeURIComponent(w);
+                }}
+              >
+                {w + " "}
+              </a>
+            ) : (
+              <span>{w + " "}</span>
+            );
+          })}
           <dialog id={props.p.Id} className="modal">
             <div className="modal-box p-0">
               <form method="dialog">
