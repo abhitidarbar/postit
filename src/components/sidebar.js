@@ -88,7 +88,7 @@ export default function Sidebar() {
             Explore
           </a>
           <a className="" rel="noreferrer" href={"/" + user.Username}>
-            <button className="flex hover:bg-gray-600 rounded-full w-48 py-2">
+            <button className="flex hover:bg-gray-600 rounded-full w-60 py-2">
               <img
                 className="w-10 h-10 rounded-full mt-1 ml-3"
                 src={
@@ -99,8 +99,16 @@ export default function Sidebar() {
                 alt="Rounded avatar"
               />
               <div className="ml-3 flex flex-col items-start">
-                <div className="text-white font-bold">{user.Name}</div>
-                <div className="text-gray-500">{user.Username}</div>
+                <div className="text-white font-bold">
+                  {user.Name.length < 16
+                    ? user.Name
+                    : user.Name.substring(0, 16) + "..."}
+                </div>
+                <div className="text-gray-500">
+                  {user.Username.length < 16
+                    ? user.Username
+                    : user.Username.substring(0, 16) + "..."}
+                </div>
               </div>
             </button>
           </a>
