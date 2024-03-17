@@ -31,7 +31,6 @@ export default function PostView(props) {
       `ListPostLikedBy(` + id + `,` + offset + `,10)`
     );
     const response = getObjectFromStringResponse(res);
-    console.log(response);
     setLikedBy(response);
   };
 
@@ -50,10 +49,8 @@ export default function PostView(props) {
   };
 
   const likePostTx = async (id) => {
-    console.log(id);
     try {
       likePost(user.Address, id).then((response) => {
-        console.log(response);
         props.setRefresh(props.refresh + 1);
       });
     } catch (err) {
@@ -149,7 +146,7 @@ export default function PostView(props) {
         <div
           className={
             "text-sm mt-0.5 hover:cursor-pointer hover:underline " +
-            (!alreadyLiked(props.p.LikedBy) ? "text-gray" : "text-pink-600")
+            (!alreadyLiked(props.p.LikedBy) ? "text-gray-400" : "text-pink-600")
           }
           onClick={async () => {
             await getLikedBy(props.p.Id).then((res) => {
@@ -157,7 +154,9 @@ export default function PostView(props) {
             });
           }}
         >
-          {props.p.LikedBy.length}
+          {props.p.LikedBy.length > 999
+            ? (props.p.LikedBy.length / 1000).toFixed(1) + "K"
+            : props.p.LikedBy.length.toString()}
         </div>
         <input
           type="checkbox"

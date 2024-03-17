@@ -69,6 +69,12 @@ export default function Search() {
               onChange={(e) => {
                 setSearchParam(e.target.value);
               }}
+              onKeyUp={(e) => {
+                if (e.key == "Enter") {
+                  e.preventDefault();
+                  getPostsPaginated();
+                }
+              }}
             >
               <svg
                 fill="#808080"
