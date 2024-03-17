@@ -16,6 +16,7 @@ export default function Search() {
   const [keyword, setKeyword] = useState("");
   const [refresh, setRefresh] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [postCount, setPostCount] = useState(100);
 
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
@@ -33,7 +34,7 @@ export default function Search() {
         )
         .then((res) => {
           const response = getObjectFromStringResponse(res);
-          setPosts(response);
+          setPosts((posts) => [...posts, ...response]);
           if (keyword.length > 0) setKeyword("");
         });
     }
@@ -128,9 +129,27 @@ export default function Search() {
                 <span className="loading loading-spinner loading-md bg-sky-500"></span>
               </div>
             ) : (
-              posts.map((p, index = 0) => {
-                return <PostView p={p} key={index} setRefresh={setRefresh} />;
-              })
+              <div>
+                {posts.map((p, index = 0) => {
+                  return <PostView p={p} key={index} setRefresh={setRefresh} />;
+                })}
+                <div className="flex flex-col items-center mt-12 mb-12">
+                  {!(offset + 10 > postCount) &&
+                  postCount !== 0 &&
+                  posts.length > 10 ? (
+                    <div
+                      className="btn btn-outline border-sky-500 text-sky-500 w-60"
+                      onClick={() => {
+                        setOffset((offset) => offset + 10);
+                      }}
+                    >
+                      Load More
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
             )}
           </div>
         </div>

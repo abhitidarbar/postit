@@ -431,7 +431,7 @@ export default function Profile({ params }) {
             })}
             <div className="h-20"></div>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center mb-12">
             {!(offset + 10 > user.PostCount) && user.PostCount !== 0 ? (
               <div
                 className="btn btn-outline border-sky-500 text-sky-500 w-60"
