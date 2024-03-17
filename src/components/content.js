@@ -15,7 +15,7 @@ export default function Content(props) {
     <div>
       <Header setRefresh={props.setRefresh} refresh={props.refresh} />
       <Suspense>
-        <PostList offset={0} setPosts={setPosts} />
+        <PostList offset={0} setPosts={setPosts} refresh={props.refresh} />
         <div className="flex flex-col">
           {posts.map((p, index) => (
             <PostView p={p} key={index} setRefresh={props.setRefresh} />

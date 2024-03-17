@@ -420,6 +420,7 @@ export default function Profile({ params }) {
           <PostList
             offset={0}
             setPosts={setPosts}
+            refresh={refresh}
             user={user}
             userPost={true}
           />

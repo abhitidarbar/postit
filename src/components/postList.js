@@ -5,7 +5,13 @@ import config from "../config/config";
 
 const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
-export default function PostList({ offset, setPosts, user, userPost }) {
+export default function PostList({
+  offset,
+  setPosts,
+  refresh,
+  user,
+  userPost,
+}) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +33,7 @@ export default function PostList({ offset, setPosts, user, userPost }) {
       }
     };
     getPostsPaginated();
-  }, [offset, setPosts, user]);
+  }, [offset, user, refresh]);
 
   if (loading) {
     return (

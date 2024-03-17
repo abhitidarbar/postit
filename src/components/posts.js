@@ -51,7 +51,7 @@ export default function PostView(props) {
   const likePostTx = async (id) => {
     try {
       likePost(user.Address, id).then((response) => {
-        props.setRefresh(props.refresh + 1);
+        props.setRefresh((res) => res + 1);
       });
     } catch (err) {
       console.log("error in calling likePost", err);
