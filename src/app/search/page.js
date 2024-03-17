@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import config from "../../config/config";
 import { Suspense } from "react";
+import Loading from "../../components/loading";
 
 export default function Search() {
   const [searchParam, setSearchParam] = useState("");
@@ -14,10 +15,12 @@ export default function Search() {
   const [offset, setOffset] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [refresh, setRefresh] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
   const getPostsPaginated = async () => {
+    setLoading(true);
     if (keyword.length > 0 || searchParam.length > 0) {
       const res = await provider
         .evaluateExpression(
@@ -34,6 +37,7 @@ export default function Search() {
           if (keyword.length > 0) setKeyword("");
         });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -50,7 +54,7 @@ export default function Search() {
   }, [keyword, refresh]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loading />}>
       <div className="flex w-screen bg-black">
         <div className="w-1/6 p-4"></div>
         <div className="w-1/4 p-4">
@@ -113,9 +117,15 @@ export default function Search() {
           </div>
 
           <div className="flex flex-col">
-            {posts.map((p, index = 0) => {
-              return <PostView p={p} key={index} setRefresh={setRefresh} />;
-            })}
+            {loading ? (
+              <div className="flex flex-col items-center h-screen mt-12">
+                <span className="loading loading-spinner loading-md bg-sky-500"></span>
+              </div>
+            ) : (
+              posts.map((p, index = 0) => {
+                return <PostView p={p} key={index} setRefresh={setRefresh} />;
+              })
+            )}
           </div>
         </div>
 

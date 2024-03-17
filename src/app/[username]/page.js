@@ -54,8 +54,8 @@ export default function Profile({ params }) {
           const response = getObjectFromStringResponse(res);
           if (response.Username.length > 0) {
             setUser(response);
-            setProfilePicture(response.Avatar);
             setLoad(false);
+            setProfilePicture(response.Avatar);
             setFound(true);
           }
         });
@@ -417,7 +417,12 @@ export default function Profile({ params }) {
         </div>
       </div> */}
         <Suspense>
-          <PostList offset={0} setPosts={setPosts} user={user} />
+          <PostList
+            offset={0}
+            setPosts={setPosts}
+            user={user}
+            userPost={true}
+          />
           <div className="flex flex-col">
             {posts.map((p, index = 0) => {
               return <PostView p={p} key={index} setRefresh={setRefresh} />;

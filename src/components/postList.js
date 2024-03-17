@@ -5,15 +5,18 @@ import config from "../config/config";
 
 const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
-export default function PostList({ offset, setPosts, user }) {
+export default function PostList({ offset, setPosts, user, userPost }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getPostsPaginated = async () => {
       try {
+        const expression = !userPost
+          ? "ListPostsByOffset(" + offset + ",30)"
+          : `ListUserPostsByOffset("${user.Username}",` + offset + `,30)`;
         const res = await provider.evaluateExpression(
           config.GNO_POSTIT_REALM,
-          "ListPostsByOffset(" + offset + ",30)"
+          expression
         );
         const response = getObjectFromStringResponse(res);
         setPosts(response);
