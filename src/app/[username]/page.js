@@ -29,6 +29,7 @@ export default function Profile({ params }) {
   const [isFetching, setIsFetching] = useState(false);
   const [load, setLoad] = useState(true);
   const [found, setFound] = useState(true);
+  const [offset, setOffset] = useState(0);
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
   const handleMouseEnter = () => {
@@ -100,7 +101,7 @@ export default function Profile({ params }) {
         setLoading(false);
       });
     } catch (err) {
-      console.log("error in calling updateAvatar", err);
+      console.error("error in calling updateAvatar", err);
     }
   };
 
@@ -118,7 +119,7 @@ export default function Profile({ params }) {
         setLoading(false);
       });
     } catch (err) {
-      console.log("error in calling updateBio", err);
+      console.error("error in calling updateBio", err);
     }
   };
 
@@ -418,7 +419,7 @@ export default function Profile({ params }) {
       </div> */}
         <Suspense>
           <PostList
-            offset={0}
+            offset={offset}
             setPosts={setPosts}
             refresh={refresh}
             user={user}
@@ -429,6 +430,20 @@ export default function Profile({ params }) {
               return <PostView p={p} key={index} setRefresh={setRefresh} />;
             })}
             <div className="h-20"></div>
+          </div>
+          <div className="flex flex-col items-center">
+            {!(offset + 10 > user.PostCount) && user.PostCount !== 0 ? (
+              <div
+                className="btn btn-outline border-sky-500 text-sky-500 w-60"
+                onClick={() => {
+                  setOffset((offset) => offset + 10);
+                }}
+              >
+                Load More
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </Suspense>
       </div>

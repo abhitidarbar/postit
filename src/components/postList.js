@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../utils/regex";
 import config from "../config/config";
+import { getFromLocalStorage } from "../utils/localstorage";
+import { defaultAddressKey } from "../types/types";
 
 const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
@@ -18,14 +20,14 @@ export default function PostList({
     const getPostsPaginated = async () => {
       try {
         const expression = !userPost
-          ? "ListPostsByOffset(" + offset + ",30)"
-          : `ListUserPostsByOffset("${user.Username}",` + offset + `,30)`;
+          ? "ListPostsByOffset(" + offset + ",10)"
+          : `ListUserPostsByOffset("${user.Username}",` + offset + `,10)`;
         const res = await provider.evaluateExpression(
           config.GNO_POSTIT_REALM,
           expression
         );
         const response = getObjectFromStringResponse(res);
-        setPosts(response);
+        setPosts((posts) => [...posts, ...response]);
         setLoading(false);
       } catch (e) {
         console.error(e);

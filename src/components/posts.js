@@ -100,11 +100,12 @@ export default function PostView(props) {
                     window.location =
                       "/search?keyword=" + encodeURIComponent(w);
                   }}
+                  key={index}
                 >
                   {w + " "}
                 </a>
               ) : (
-                <span>{w + " "}</span>
+                <span key={index}>{w + " "}</span>
               );
             })}
           </div>
