@@ -5,7 +5,7 @@ import Trending from "../components/trending";
 import { getFromLocalStorage } from "../utils/localstorage";
 import { defaultAddressKey } from "../types/types";
 import { useState, useEffect } from "react";
-
+import Loading from "../components/loading";
 export default function Home() {
   const [refresh, setRefresh] = useState(0);
   const [wallet, setWallet] = useState("");
@@ -22,18 +22,9 @@ export default function Home() {
   });
 
   return load ? (
-    <div className="flex flex-col items-center h-screen">
-      <span className="flex flex-row justify-center w-48">
-        <div className="font-bold">POST</div>
-        <div className="font-bold">.</div>
-        <div className="text-sky-500 font-bold">it</div>
-      </span>
-    </div>
+    <Loading />
   ) : (
     <div>
-      {/* {wallet === "" ? (
-        <Login />
-      ) : ( */}
       <div className="flex w-screen bg-black">
         <div className="w-1/6 p-4"></div>
         <div className="w-1/4 p-4">

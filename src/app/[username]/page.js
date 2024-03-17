@@ -53,7 +53,6 @@ export default function Profile({ params }) {
         .then((res) => {
           const response = getObjectFromStringResponse(res);
           if (response.Username.length > 0) {
-            console.log(response);
             setUser(response);
             setProfilePicture(response.Avatar);
             setLoad(false);

@@ -10,6 +10,7 @@ export default function Sidebar() {
   const [user, setUser] = useState({});
   const [adenaStatus, setAdenaStatus] = useState("failure");
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
+  const [loading, setLoading] = useState(true);
 
   const connectWallet = async () => {
     //look for the adena object
@@ -17,8 +18,6 @@ export default function Sidebar() {
       //open adena.app in a new tab if the adena object is not found
       window.open("https://adena.app/", "_blank");
     } else {
-      //write your logic here
-      //the sample code below displays a method provided by Adena that initiates a connection
       await adena.AddEstablish("Adena");
     }
   };
@@ -43,7 +42,9 @@ export default function Sidebar() {
       );
       const response = getObjectFromStringResponse(res);
       setUser(response);
+      setLoading(false);
     } catch (e) {
+      setLoading(false);
       console.error(e);
     }
   };
@@ -59,8 +60,11 @@ export default function Sidebar() {
         <div className="font-bold">.</div>
         <div className="text-sky-500 font-bold">it</div>
       </span>
-
-      {user?.Address?.length > 0 ? (
+      {loading ? (
+        <div className="flex flex-col items-center h-screen mt-12">
+          <span className="loading loading-spinner loading-md bg-sky-500"></span>
+        </div>
+      ) : user?.Address?.length > 0 ? (
         <div className="flex flex-col">
           <a
             className="text-white hover:bg-gray-800 font-bold rounded-full text-lg px-7 py-2.5 text-left mb-2 w-fit"
