@@ -92,7 +92,7 @@ export default function Login(props) {
         }}
         disabled={name.length === 0 || username.length === 0}
       >
-        Create User
+        Create Profile
       </button>
     </div>
   );

@@ -119,7 +119,7 @@ export default function Sidebar() {
             href={"/createUser"}
             className="text-white bg-sky-500 hover:bg-sky-600 font-bold rounded-full text-md px-6 py-2.5 text-center mb-2 w-48"
           >
-            Create User
+            Create Profile
           </Link>
         </>
       ) : (
