@@ -73,24 +73,29 @@ export default function PostView(props) {
       ) : (
         ""
       )}
-      <div
-        className="flex p-4 hover:cursor-pointer"
-        onClick={() => {
-          window.location = "/" + props.p.Username;
-        }}
-      >
+      <div className="flex p-4">
         <img
-          className="w-10 h-10 rounded-full"
+          className="w-10 h-10 rounded-full hover:cursor-pointer"
           src={
             props.p.User.Avatar?.startsWith("data:image/")
               ? props.p.User.Avatar
               : "./default-user-avatar.png"
           }
           alt="Rounded avatar"
+          onClick={() => {
+            window.location = "/" + props.p.Username;
+          }}
         />
         <div className="ml-3">
           <div className="flex">
-            <a className="font-bold">{props.p.User.Name}</a>
+            <a
+              className="font-bold hover:cursor-pointer"
+              onClick={() => {
+                window.location = "/" + props.p.Username;
+              }}
+            >
+              {props.p.User.Name}
+            </a>
             <div className="ml-1 text-gray-400 ">@{props.p.Username} .</div>
             <div className="ml-1 text-gray-400 ">
               {dayjs(props.p.CreatedAt).fromNow()}

@@ -165,7 +165,7 @@ export default function Profile({ params }) {
           </div>
           <div className="flex items-center ml-4 mt-10">
             <div
-              className="relative flex flex-col items-center justify-center"
+              className="relative flex flex-col items-center justify-center hover:cursor-pointer"
               onClick={() =>
                 document.getElementById("profile_picture").showModal()
               }
