@@ -88,14 +88,38 @@ export default function PostView(props) {
         />
         <div className="ml-3">
           <div className="flex">
-            <a
-              className="font-bold hover:cursor-pointer"
-              onClick={() => {
-                window.location = "/" + props.p.Username;
-              }}
-            >
-              {props.p.User.Name}
-            </a>
+            <div className="group relative">
+              <a
+                className="font-bold hover:cursor-pointer hover:underline"
+                onClick={() => {
+                  window.location = "/" + props.p.Username;
+                }}
+              >
+                {props.p.User.Name}
+              </a>
+              <div class="absolute top-7 left-3 hidden group-hover:block w-60 p-4 bg-gray-800 rounded-lg shadow-md">
+                <div class="">
+                  <div className="flex">
+                    <img
+                      src={props.p.User.Avatar}
+                      alt="User Avatar"
+                      class="w-12 h-12 rounded-full"
+                    />
+                    <div className="ml-2">
+                      <div class="text-lg font-semibold">
+                        {props.p.User.Name}
+                      </div>
+                      <div className="ml-1 text-gray-400 text-xs">
+                        @{props.p.Username}{" "}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-2">
+                    <p class="text-sm text-gray-200">{props.p.User.Bio}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="ml-1 text-gray-400 ">@{props.p.Username} .</div>
             <div className="ml-1 text-gray-400 ">
               {dayjs(props.p.CreatedAt).fromNow()}
@@ -149,6 +173,7 @@ export default function PostView(props) {
           )}
         </div>
       </div>
+
       <div className="flex mr-12">
         <svg
           width="25px"
