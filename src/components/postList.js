@@ -35,7 +35,28 @@ export default function PostList({
       }
     };
     getPostsPaginated();
-  }, [offset, user, refresh]);
+  }, [offset]);
+
+  useEffect(() => {
+    const getPostsPaginated = async () => {
+      try {
+        const expression = !userPost
+          ? "ListPostsByOffset(" + offset + ",10)"
+          : `ListUserPostsByOffset("${user.Username}",` + offset + `,10)`;
+        const res = await provider.evaluateExpression(
+          config.GNO_POSTIT_REALM,
+          expression
+        );
+        const response = getObjectFromStringResponse(res);
+        setPosts(response);
+        setLoading(false);
+      } catch (e) {
+        console.error(e);
+        setLoading(false);
+      }
+    };
+    getPostsPaginated();
+  }, [refresh, user]);
 
   if (loading) {
     return (

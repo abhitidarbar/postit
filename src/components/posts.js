@@ -73,7 +73,12 @@ export default function PostView(props) {
       ) : (
         ""
       )}
-      <div className="flex p-4">
+      <div
+        className="flex p-4 hover:cursor-pointer"
+        onClick={() => {
+          window.location = "/" + props.p.Username;
+        }}
+      >
         <img
           className="w-10 h-10 rounded-full"
           src={

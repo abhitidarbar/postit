@@ -41,6 +41,27 @@ export default function Search() {
     setLoading(false);
   };
 
+  const getPosts = async () => {
+    setLoading(true);
+    if (keyword.length > 0 || searchParam.length > 0) {
+      const res = await provider
+        .evaluateExpression(
+          config.GNO_POSTIT_REALM,
+          `ListKeywordPostsByOffset("${
+            keyword.length > 0 ? keyword : searchParam
+          }",` +
+            offset +
+            `,10)`
+        )
+        .then((res) => {
+          const response = getObjectFromStringResponse(res);
+          setPosts(response);
+          if (keyword.length > 0) setKeyword("");
+        });
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     let key = params.get("keyword");
@@ -52,7 +73,13 @@ export default function Search() {
     if (typeof window !== "undefined") {
       getPostsPaginated();
     }
-  }, [keyword, refresh]);
+  }, [keyword]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      getPosts();
+    }
+  }, [refresh]);
 
   return (
     <Suspense fallback={<Loading />}>
