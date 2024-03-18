@@ -97,7 +97,7 @@ export default function PostView(props) {
               >
                 {props.p.User.Name}
               </a>
-              <div class="absolute top-7 left-3 hidden group-hover:block w-60 p-4 bg-gray-800 rounded-lg shadow-md">
+              <div class="z-10 absolute top-7 left-3 hidden group-hover:block w-60 p-4 bg-gray-800 rounded-lg shadow-md">
                 <div class="">
                   <div className="flex">
                     <img
