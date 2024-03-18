@@ -17,6 +17,7 @@ export default function Search() {
   const [refresh, setRefresh] = useState(0);
   const [loading, setLoading] = useState(false);
   const [postCount, setPostCount] = useState(100);
+  const [disable, setDisable] = useState(false);
 
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
@@ -34,6 +35,9 @@ export default function Search() {
         )
         .then((res) => {
           const response = getObjectFromStringResponse(res);
+          if (response.length == 0) {
+            setDisable(true);
+          }
           setPosts((posts) => [...posts, ...response]);
           if (keyword.length > 0) setKeyword("");
         });
@@ -43,6 +47,7 @@ export default function Search() {
 
   const getPosts = async () => {
     setLoading(true);
+    setDisable(false);
     if ((keyword.length > 0 || searchParam.length > 0) && offset == 0) {
       if (offset == 0) {
         const res = await provider
@@ -56,6 +61,9 @@ export default function Search() {
           )
           .then((res) => {
             const response = getObjectFromStringResponse(res);
+            if (response.length == 0) {
+              setDisable(true);
+            }
             setPosts(response);
             if (keyword.length > 0) setKeyword("");
           });
@@ -167,18 +175,21 @@ export default function Search() {
                   return <PostView p={p} key={index} setRefresh={setRefresh} />;
                 })}
                 <div className="flex flex-col items-center mt-12 mb-12">
-                  {!(offset + 10 > postCount) && postCount !== 0 ? (
-                    <div
-                      className="btn btn-outline border-sky-500 text-sky-500 w-60"
-                      onClick={() => {
-                        setOffset((offset) => offset + 10);
-                      }}
-                    >
-                      Load More
-                    </div>
-                  ) : (
-                    ""
-                  )}
+                  {!disable &&
+                    (!(offset + 10 > postCount) &&
+                    postCount !== 0 &&
+                    posts.length > 0 ? (
+                      <div
+                        className="btn btn-outline border-sky-500 text-sky-500 w-60"
+                        onClick={() => {
+                          setOffset((offset) => offset + 10);
+                        }}
+                      >
+                        Load More
+                      </div>
+                    ) : (
+                      ""
+                    ))}
                 </div>
               </div>
             )}
