@@ -142,7 +142,7 @@ export default function Header(props) {
             onClick={() => {
               createPostTx();
             }}
-            disabled={loading || address == undefined || user == null}
+            disabled={loading}
           >
             Post
             {loading ? (
