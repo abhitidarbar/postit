@@ -43,21 +43,23 @@ export default function Search() {
 
   const getPosts = async () => {
     setLoading(true);
-    if (keyword.length > 0 || searchParam.length > 0) {
-      const res = await provider
-        .evaluateExpression(
-          config.GNO_POSTIT_REALM,
-          `ListKeywordPostsByOffset("${
-            keyword.length > 0 ? keyword : searchParam
-          }",` +
-            offset +
-            `,10)`
-        )
-        .then((res) => {
-          const response = getObjectFromStringResponse(res);
-          setPosts(response);
-          if (keyword.length > 0) setKeyword("");
-        });
+    if ((keyword.length > 0 || searchParam.length > 0) && offset == 0) {
+      if (offset == 0) {
+        const res = await provider
+          .evaluateExpression(
+            config.GNO_POSTIT_REALM,
+            `ListKeywordPostsByOffset("${
+              keyword.length > 0 ? keyword : searchParam
+            }",` +
+              offset +
+              `,10)`
+          )
+          .then((res) => {
+            const response = getObjectFromStringResponse(res);
+            setPosts(response);
+            if (keyword.length > 0) setKeyword("");
+          });
+      }
     }
     setLoading(false);
   };
@@ -79,7 +81,7 @@ export default function Search() {
     if (typeof window !== "undefined") {
       getPosts();
     }
-  }, [refresh, keyword]);
+  }, [refresh, keyword, offset]);
 
   return (
     <Suspense fallback={<Loading />}>
@@ -97,9 +99,11 @@ export default function Search() {
               onChange={(e) => {
                 setSearchParam(e.target.value);
               }}
-              onKeyUp={(e) => {
+              onKeyUp={async (e) => {
                 if (e.key == "Enter") {
+                  setPosts([]);
                   e.preventDefault();
+                  setOffset(0);
                   getPosts();
                 }
               }}
@@ -128,6 +132,8 @@ export default function Search() {
               <div
                 className="btn btn-sm btn-circle btn-ghost"
                 onClick={() => {
+                  setPosts([]);
+                  setOffset(0);
                   getPosts();
                 }}
               >
@@ -161,9 +167,7 @@ export default function Search() {
                   return <PostView p={p} key={index} setRefresh={setRefresh} />;
                 })}
                 <div className="flex flex-col items-center mt-12 mb-12">
-                  {!(offset + 10 > postCount) &&
-                  postCount !== 0 &&
-                  posts.length > 10 ? (
+                  {!(offset + 10 > postCount) && postCount !== 0 ? (
                     <div
                       className="btn btn-outline border-sky-500 text-sky-500 w-60"
                       onClick={() => {
