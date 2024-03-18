@@ -55,11 +55,13 @@ export default function Sidebar() {
   }, []);
   return (
     <div className="flex flex-col sticky top-5 items-center">
-      <span className="flex flex-row justify-center mb-4 w-48">
-        <div className="font-bold">POST</div>
-        <div className="font-bold">.</div>
-        <div className="text-sky-500 font-bold">it</div>
-      </span>
+      <a href="/" rel="noreferrer">
+        <span className="flex flex-row justify-center mb-4 w-48">
+          <div className="font-bold">POST</div>
+          <div className="font-bold">.</div>
+          <div className="text-sky-500 font-bold">it</div>
+        </span>
+      </a>
       {loading ? (
         <div className="flex flex-col items-center h-screen mt-12">
           <span className="loading loading-spinner loading-md bg-sky-500"></span>

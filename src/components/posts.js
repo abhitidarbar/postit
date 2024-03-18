@@ -97,16 +97,16 @@ export default function PostView(props) {
               >
                 {props.p.User.Name}
               </a>
-              <div class="z-10 absolute top-7 left-3 hidden group-hover:block w-60 p-4 bg-gray-800 rounded-lg shadow-md">
-                <div class="">
+              <div className="z-10 absolute top-7 left-3 hidden group-hover:block w-60 p-4 bg-gray-800 rounded-lg shadow-md">
+                <div className="">
                   <div className="flex">
                     <img
                       src={props.p.User.Avatar}
                       alt="User Avatar"
-                      class="w-12 h-12 rounded-full"
+                      className="w-12 h-12 rounded-full"
                     />
                     <div className="ml-2">
-                      <div class="text-lg font-semibold">
+                      <div className="text-lg font-semibold">
                         {props.p.User.Name}
                       </div>
                       <div className="ml-1 text-gray-400 text-xs">
@@ -115,7 +115,7 @@ export default function PostView(props) {
                     </div>
                   </div>
                   <div className="mt-2">
-                    <p class="text-sm text-gray-200">{props.p.User.Bio}</p>
+                    <p className="text-sm text-gray-200">{props.p.User.Bio}</p>
                   </div>
                 </div>
               </div>

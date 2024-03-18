@@ -134,7 +134,7 @@ export default function Profile({ params }) {
         <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0"></hr>
         <div className="w-1/2 py-1">
           <div className="flex">
-            <div
+            <a
               href="/"
               rel="noreferrer"
               className="flex ml-4 hover:bg-gray-800 rounded-full items-center justify-center px-4"
@@ -155,7 +155,7 @@ export default function Profile({ params }) {
                   d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
                 />
               </svg>
-            </div>
+            </a>
             <div className="mt-1 ml-8">
               <div className="text-lg font-bold">{user.Name}</div>
               <div className="text-gray-400 text-sm font-bold">
