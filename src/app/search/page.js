@@ -70,16 +70,16 @@ export default function Search() {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && offset > 0) {
       getPostsPaginated();
     }
-  }, [keyword]);
+  }, [offset]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       getPosts();
     }
-  }, [refresh]);
+  }, [refresh, keyword]);
 
   return (
     <Suspense fallback={<Loading />}>
@@ -100,7 +100,7 @@ export default function Search() {
               onKeyUp={(e) => {
                 if (e.key == "Enter") {
                   e.preventDefault();
-                  getPostsPaginated();
+                  getPosts();
                 }
               }}
             >
@@ -128,7 +128,7 @@ export default function Search() {
               <div
                 className="btn btn-sm btn-circle btn-ghost"
                 onClick={() => {
-                  getPostsPaginated();
+                  getPosts();
                 }}
               >
                 <svg
