@@ -51,8 +51,9 @@ export default function Header(props) {
 
   const createPostTx = async () => {
     setLoading(true);
+    let addr = getFromLocalStorage(defaultAddressKey);
     try {
-      createPost(address, content, attachment).then((response) => {
+      createPost(addr, content, attachment).then((response) => {
         console.log(response);
         setContent("");
         setAttachment("#");
