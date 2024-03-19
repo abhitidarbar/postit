@@ -401,6 +401,12 @@ export default function Profile({ params }) {
         </div>
       </div> */}
           <Suspense>
+            <div className="flex flex-col">
+              {posts.map((p, index = 0) => {
+                return <PostView p={p} key={index} setRefresh={setRefresh} />;
+              })}
+              <div className="h-20"></div>
+            </div>
             <PostList
               offset={offset}
               setPosts={setPosts}
@@ -408,13 +414,7 @@ export default function Profile({ params }) {
               user={user}
               userPost={true}
             />
-            <div className="flex flex-col">
-              {posts.map((p, index = 0) => {
-                return <PostView p={p} key={index} setRefresh={setRefresh} />;
-              })}
-              <div className="h-20"></div>
-            </div>
-            <div className="flex flex-col items-center mb-12">
+            <div className="flex flex-col items-center mb-12 mt-4">
               {!(offset + 10 > user.PostCount) && user.PostCount !== 0 ? (
                 <div
                   className="btn btn-outline border-sky-500 text-sky-500 w-60"

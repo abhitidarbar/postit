@@ -37,13 +37,13 @@ export default function Content(props) {
     <div>
       <Header setRefresh={props.setRefresh} refresh={props.refresh} />
       <Suspense>
-        <PostList offset={offset} setPosts={setPosts} refresh={props.refresh} />
         <div className="flex flex-col">
           {posts.map((p, index) => (
             <PostView p={p} key={index} setRefresh={props.setRefresh} />
           ))}
           <div className="h-20"></div>
         </div>
+        <PostList offset={offset} setPosts={setPosts} refresh={props.refresh} />
         <div className="flex flex-col items-center mb-12">
           {!(offset + 10 > postCount) && (
             <div

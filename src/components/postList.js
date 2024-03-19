@@ -19,6 +19,7 @@ export default function PostList({
   useEffect(() => {
     const getPostsPaginated = async () => {
       if (offset > 0) {
+        setLoading(true);
         try {
           const expression = !userPost
             ? "ListPostsByOffset(" + offset + ",10)"
@@ -28,8 +29,9 @@ export default function PostList({
             expression
           );
           const response = getObjectFromStringResponse(res);
-          setPosts((posts) => [...posts, ...response]);
-          setLoading(false);
+          setPosts((posts) => [...posts, ...response]).then(() => {
+            if (posts.length > offset) setLoading(false);
+          });
         } catch (e) {
           console.error(e);
           setLoading(false);
