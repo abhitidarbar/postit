@@ -7,6 +7,7 @@ import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import config from "../config/config";
 import { getObjectFromStringResponse } from "../utils/regex";
 import { saveToLocalStorage } from "../utils/localstorage";
+import Alert from "./alert";
 
 export default function Header(props) {
   const [content, setContent] = useState("");
@@ -15,6 +16,8 @@ export default function Header(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [user, setUser] = useState(null);
   const [address, setAddress] = useState("");
+  const [alert, setAlert] = useState({ type: "", msg: "", show: false });
+
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
 
   const setAccount = async () => {
@@ -54,13 +57,30 @@ export default function Header(props) {
     let addr = getFromLocalStorage(defaultAddressKey);
     try {
       createPost(addr, content, attachment).then((response) => {
-        console.log(response);
-        setContent("");
-        setAttachment("#");
+        if (response.code === 0) {
+          props.setRefresh(props.refresh + 1);
+          setContent("");
+          setAttachment("#");
+          setAlert({
+            type: "success",
+            msg: "Post created succesfully",
+            show: true,
+          });
+        } else {
+          setAlert({
+            type: "error",
+            msg: "Error creating Post",
+            show: true,
+          });
+        }
         setLoading(false);
-        props.setRefresh(props.refresh + 1);
       });
     } catch (err) {
+      setAlert({
+        type: "error",
+        msg: "Error creating Post",
+        show: true,
+      });
       console.log("error in calling createPost", err);
     }
   };
@@ -87,6 +107,7 @@ export default function Header(props) {
 
   return (
     <div className="flex flex-col p-4">
+      <Alert alert={alert} setAlert={setAlert} />
       <div className="flex">
         <img
           className="w-10 h-10 rounded-full"

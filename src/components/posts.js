@@ -9,6 +9,7 @@ import { defaultAddressKey } from "../types/types";
 import { GnoJSONRPCProvider } from "@gnolang/gno-js-client";
 import { getObjectFromStringResponse } from "../utils/regex";
 import config from "../config/config";
+import Alert from "./alert";
 
 export default function PostView(props) {
   const provider = new GnoJSONRPCProvider(config.GNO_JSONRPC_URL);
@@ -16,6 +17,7 @@ export default function PostView(props) {
   const [likedBy, setLikedBy] = useState([]);
   const [user, setUser] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [alert, setAlert] = useState({ type: "", msg: "", show: false });
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -51,9 +53,27 @@ export default function PostView(props) {
   const likePostTx = async (id) => {
     try {
       likePost(user.Address, id).then((response) => {
-        props.setRefresh((res) => res + 1);
+        if (response.code === 0) {
+          props.setRefresh(props.refresh + 1);
+          setAlert({
+            type: "success",
+            msg: "Post liked succesfully",
+            show: true,
+          });
+        } else {
+          setAlert({
+            type: "error",
+            msg: "Error liking Post",
+            show: true,
+          });
+        }
       });
     } catch (err) {
+      setAlert({
+        type: "error",
+        msg: "Error liking Post",
+        show: true,
+      });
       console.log("error in calling likePost", err);
     }
   };
@@ -73,6 +93,7 @@ export default function PostView(props) {
       ) : (
         ""
       )}
+      <Alert alert={alert} setAlert={setAlert} />
       <div className="flex p-4">
         <img
           className="w-10 h-10 rounded-full hover:cursor-pointer"

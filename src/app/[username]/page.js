@@ -117,6 +117,11 @@ export default function Profile({ params }) {
         setLoading(false);
       });
     } catch (err) {
+      setAlert({
+        type: "error",
+        msg: "Error updating Avatar",
+        show: true,
+      });
       console.error("error in calling updateAvatar", err);
     }
   };
@@ -152,7 +157,7 @@ export default function Profile({ params }) {
       console.error("error in calling updateBio", err);
       setAlert({
         type: "error",
-        msg: "bio not updated",
+        msg: "Error updating Bio",
         show: true,
       });
     }
