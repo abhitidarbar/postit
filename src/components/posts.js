@@ -181,7 +181,7 @@ export default function PostView(props) {
           viewBox="0 0 24 24"
           fill={!alreadyLiked(props.p.LikedBy) ? "none" : "#db2777"}
           xmlns="http://www.w3.org/2000/svg"
-          className="ml-auto mr-1 hover:cursor-pointer"
+          className="ml-auto mr-1 hover:cursor-pointer pointer-events-none sm:pointer-events-auto"
           onClick={() => {
             !alreadyLiked(props.p.LikedBy) ? likePostTx(props.p.Id) : "";
           }}
