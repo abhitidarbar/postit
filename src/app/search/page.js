@@ -102,7 +102,7 @@ export default function Search() {
           <Sidebar />
         </div>
         <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0 hidden sm:inline"></hr>
-        <div className="w-full sm:w-1/2 py-2">
+        <div className="h-screen sm:h-auto sm:w-1/2 py-2">
           <div className="flex">
             <a
               href="/"
@@ -128,7 +128,7 @@ export default function Search() {
             </a>
             <label
               value={searchParam}
-              className="input input-bordered rounded-full flex items-center gap-2"
+              className="input input-bordered rounded-full flex items-center gap-2 sm:w-4/5"
               onChange={(e) => {
                 setSearchParam(e.target.value);
               }}
@@ -191,11 +191,11 @@ export default function Search() {
 
           <div className="flex flex-col">
             {loading ? (
-              <div className="flex flex-col items-center mt-12 sm:h-full">
+              <div className="flex flex-col items-center mt-12 sm:h-full h-screen">
                 <span className="loading loading-spinner loading-md bg-sky-500"></span>
               </div>
             ) : (
-              <div>
+              <div className="w-screen sm:w-auto bg-black">
                 {posts.map((p, index = 0) => {
                   return <PostView p={p} key={index} setRefresh={setRefresh} />;
                 })}
