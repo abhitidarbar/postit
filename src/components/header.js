@@ -89,7 +89,9 @@ export default function Header(props) {
     try {
       const res = await provider.evaluateExpression(
         config.GNO_POSTIT_REALM,
-        `GetUserByAddress("${address.toString()}")`
+        `GetUserByAddress("${getFromLocalStorage(
+          defaultAddressKey
+        ).toString()}")`
       );
       const response = getObjectFromStringResponse(res);
 
