@@ -127,17 +127,21 @@ export default function Profile({ params }) {
   if (load)
     return (
       <div className="flex w-screen bg-black">
+        <div className="sm:hidden text-xs absolute top-0 bg-sky-500 w-full flex items-center justify-center">
+          <div> Mobile devices may not fully support all functionalities</div>
+        </div>
         <div className="w-1/6 p-4"></div>
-        <div className="w-1/4 p-4">
+        <div className="w-1/4 p-4 hidden sm:inline">
           <Sidebar />
         </div>
-        <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0"></hr>
-        <div className="w-1/2 py-1">
+
+        <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0 hidden sm:inline"></hr>
+        <div className="w-full sm:w-1/2 py-1 mt-4 sm:mt-0">
           <div className="flex">
             <a
               href="/"
               rel="noreferrer"
-              className="flex ml-4 hover:bg-gray-800 rounded-full items-center justify-center px-4"
+              className="flex sm:ml-4 hover:bg-gray-800 rounded-full items-center justify-center sm:px-4"
             >
               <svg
                 width="20px"
@@ -374,7 +378,9 @@ export default function Profile({ params }) {
             >
               <path d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268M1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1" />
             </svg>
-            <div className="text-gray-500 ml-1 text-sm">{user.Address}</div>{" "}
+            <div className="text-gray-500 ml-1 text-xs md:text-sm">
+              {user.Address}
+            </div>{" "}
           </div>
           <div className="ml-4 flex my-2">
             <svg
@@ -405,8 +411,8 @@ export default function Profile({ params }) {
               {posts.map((p, index = 0) => {
                 return <PostView p={p} key={index} setRefresh={setRefresh} />;
               })}
-              <div className="h-20"></div>
             </div>
+
             <PostList
               offset={offset}
               setPosts={setPosts}
@@ -414,10 +420,11 @@ export default function Profile({ params }) {
               user={user}
               userPost={true}
             />
-            <div className="flex flex-col items-center mb-12 mt-4">
+
+            <div className="flex flex-col items-center mb-12">
               {!(offset + 10 > user.PostCount) && user.PostCount !== 0 ? (
                 <div
-                  className="btn btn-outline border-sky-500 text-sky-500 w-60"
+                  className="btn btn-outline border-sky-500 text-sky-500 w-60 mt-4"
                   onClick={() => {
                     setOffset((offset) => offset + 10);
                   }}
@@ -430,8 +437,8 @@ export default function Profile({ params }) {
             </div>
           </Suspense>
         </div>
-        <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0"></hr>
-        <div className="w-1/4 p-4">
+        <hr className="h-screen border-l border-gray-200 opacity-25 sticky top-0 hidden sm:inline"></hr>
+        <div className="w-1/4 p-4 hidden sm:inline">
           <Trending />
         </div>
         <div className="w-1/6 p-4"></div>

@@ -138,12 +138,12 @@ export default function Header(props) {
           <button
             type="button"
             className={
-              "flex text-white bg-sky-500 hover:bg-sky-600 disabled:bg-gray-500 font-bold rounded-full text-md py-1.5 text-center mb-2 px-8"
+              "flex text-white bg-sky-500 hover:bg-sky-600 disabled:bg-gray-500 font-bold rounded-full text-md py-1.5 text-center mb-2 px-8 pointer-events-none opacity-50 sm:pointer-events-auto sm:opacity-100"
             }
             onClick={() => {
               createPostTx();
             }}
-            disabled={loading}
+            disabled={loading || content.length < 1}
           >
             Post
             {loading ? (

@@ -64,7 +64,7 @@ export default function PostList({
 
   if (loading) {
     return (
-      <div>
+      <div className="h-screen sm:h-full">
         <hr className="w-full border-l border-gray-200 opacity-25 sticky mt-4"></hr>
         <div className="flex justify-center items-center">
           <span className="mt-4 loading loading-spinner loading-md bg-sky-500"></span>
