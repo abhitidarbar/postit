@@ -13,6 +13,7 @@ import Link from "next/link";
 import PostView from "../../components/posts";
 import PostList from "../../components/postList";
 import Loading from "../../components/loading";
+import Alert from "../../components/alert";
 
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
@@ -21,12 +22,14 @@ export default function Profile({ params }) {
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
   const [refresh, setRefresh] = useState(0);
+  const [refreshUser, setRefreshUser] = useState(0);
   const [profilePicture, setProfilePicture] = useState("#");
   const [userBio, setUserBio] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [load, setLoad] = useState(null);
+  const [alert, setAlert] = useState({ type: "", msg: "", show: false });
 
   const [offset, setOffset] = useState(0);
 
@@ -67,7 +70,7 @@ export default function Profile({ params }) {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [refreshUser]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -93,9 +96,23 @@ export default function Profile({ params }) {
     try {
       updateAvatar(address, profilePicture).then((response) => {
         {
-          response.code === 0
-            ? window.location.reload()
-            : console.error(response);
+          if (response.code === 0) {
+            setRefreshUser((refreshUser) => {
+              refreshUser + 1;
+            });
+            setAlert({
+              type: "success",
+              msg: "Your avatar has been updated successfully",
+              show: true,
+            });
+          } else {
+            setAlert({
+              type: "error",
+              msg: "Error updating Avatar",
+              show: true,
+            });
+          }
+          document.getElementById("profile_picture").close();
         }
         setLoading(false);
       });
@@ -111,14 +128,33 @@ export default function Profile({ params }) {
     try {
       updateBio(address, userBio).then((response) => {
         {
-          response.code === 0
-            ? window.location.reload()
-            : console.error(response);
+          if (response.code === 0) {
+            setRefreshUser((refreshUser) => {
+              refreshUser + 1;
+            });
+            setAlert({
+              type: "success",
+              msg: "Your bio has been updated successfully",
+              show: true,
+            });
+          } else {
+            setAlert({
+              type: "error",
+              msg: "Error updating Bio",
+              show: true,
+            });
+          }
+          document.getElementById("edit_profile").close();
         }
         setLoading(false);
       });
     } catch (err) {
       console.error("error in calling updateBio", err);
+      setAlert({
+        type: "error",
+        msg: "bio not updated",
+        show: true,
+      });
     }
   };
 
@@ -127,6 +163,7 @@ export default function Profile({ params }) {
   if (load)
     return (
       <div className="flex w-screen bg-black">
+        <Alert alert={alert} setAlert={setAlert} />
         <div className="sm:hidden text-xs absolute top-0 bg-sky-500 w-full flex items-center justify-center">
           <div> Mobile devices may not fully support all functionalities</div>
         </div>
