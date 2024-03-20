@@ -130,7 +130,7 @@ export default function Profile({ params }) {
         <div className="sm:hidden text-xs absolute top-0 bg-sky-500 w-full flex items-center justify-center">
           <div> Mobile devices may not fully support all functionalities</div>
         </div>
-        <div className="w-1/6 p-4"></div>
+        <div className="w-1/6 p-4 hidden sm:inline"></div>
         <div className="w-1/4 p-4 hidden sm:inline">
           <Sidebar />
         </div>
@@ -141,7 +141,7 @@ export default function Profile({ params }) {
             <a
               href="/"
               rel="noreferrer"
-              className="flex sm:ml-4 hover:bg-gray-800 rounded-full items-center justify-center sm:px-4"
+              className="flex ml-4 hover:bg-gray-800 rounded-full items-center justify-center px-4"
             >
               <svg
                 width="20px"
@@ -363,7 +363,8 @@ export default function Profile({ params }) {
           <div className="text-gray-500 ml-4">{"@" + user.Username}</div>
           <div
             className={
-              "ml-4 mt-3 mb-4 text-sm " + (user.Username === "" ? "italic" : "")
+              "ml-4 mt-3 mb-4 text-sm mr-4 " +
+              (user.Username === "" ? "italic" : "")
             }
           >
             {user.Bio === "" ? "No bio set" : user.Bio}
@@ -441,7 +442,7 @@ export default function Profile({ params }) {
         <div className="w-1/4 p-4 hidden sm:inline">
           <Trending />
         </div>
-        <div className="w-1/6 p-4"></div>
+        <div className="w-1/6 p-4 hidden sm:inline"></div>
       </div>
     );
   if (!load)

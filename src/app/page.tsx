@@ -29,7 +29,7 @@ export default function Home() {
         <div> Mobile devices may not fully support all functionalities</div>
       </div>
       <div className="flex w-screen bg-black">
-        <div className="w-1/12 p-4"></div>
+        <div className="w-1/12 p-4 hidden sm:inline"></div>
         <div className="w-1/4 p-4 hidden sm:inline">
           <Sidebar />
         </div>
@@ -41,7 +41,7 @@ export default function Home() {
         <div className="w-1/4 p-4 hidden sm:inline">
           <Trending refresh={refresh} />
         </div>
-        <div className="w-1/6 p-4"></div>
+        <div className="w-1/6 p-4 hidden sm:inline"></div>
       </div>
     </div>
   );
